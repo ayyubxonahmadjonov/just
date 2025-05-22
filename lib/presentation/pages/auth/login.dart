@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:real_project/core/colors.dart';
-import 'package:real_project/core/common_widgets/custom_button.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
 import 'package:real_project/core/imports.dart';
 import 'package:real_project/presentation/pages/home_screen.dart';
