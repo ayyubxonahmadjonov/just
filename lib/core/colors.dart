@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'dart:ui';
+import 'imports.dart';
 
 class AppColors {
   // static const Color primaryColor = Color.fromRGBO(6, 140, 239, 1);

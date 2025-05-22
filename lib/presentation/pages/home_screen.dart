@@ -1,32 +1,23 @@
-import 'dart:math';
 
-import 'package:flutter/material.dart';
-import 'package:popover/popover.dart';
-import 'package:real_project/core/colors.dart';
-import 'package:real_project/core/common_widgets/custom_card.dart';
-import 'package:real_project/core/common_widgets/custom_popover.dart';
-import 'package:real_project/core/common_widgets/build_icon_button.dart';
+import '../../core/imports.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double maxWidth = MediaQuery.of(context).size.width;
     double maxHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
           Container(
             width: maxWidth,
-            height: maxHeight*0.37,
+            height: maxHeight * 0.37,
             decoration: BoxDecoration(
-
               color:AppColors.primaryColor,
               borderRadius: BorderRadius.all(
                   Radius.circular(40)
               ),
-
             ),
             padding: EdgeInsets.only(left: 24, right: 24, top: 60),
             child: Column(
@@ -64,25 +55,19 @@ mainAxisAlignment: MainAxisAlignment.spaceEvenly,    children: [
                   Column(children: [
                     Text("25,000",style: TextStyle(color: AppColors.white1,fontWeight: FontWeight.w800,fontSize: 20),),
                     Text("PHP invest",style: TextStyle(color: AppColors.white1,fontWeight: FontWeight.w500,fontSize: 13),),
-
                   ],),
                   Column(children: [
                     Text("25,000",style: TextStyle(color: AppColors.white1,fontWeight: FontWeight.w800,fontSize: 20),),
                     Text("Prime capital",style: TextStyle(color: AppColors.white1,fontWeight: FontWeight.w500,fontSize: 13),),
-
                   ],),
                 ],)
               ],
             ),
           ),
-
            SizedBox(height: 30),
           Column(children: [
-
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                 children: [
               BuildIconButton(icon: "invest.png",label: "Invest",),
               BuildIconButton(icon: "history.png",label: "Tarix",),
@@ -91,14 +76,12 @@ mainAxisAlignment: MainAxisAlignment.spaceEvenly,    children: [
             ],),
             Container(
               width: maxWidth*0.85,
-
               margin: EdgeInsets.only(top: 40),
               decoration: BoxDecoration(
                 color:Colors.white,
                 borderRadius: BorderRadius.circular(30),
                 boxShadow: [
                   BoxShadow(
-
                     color: Colors.grey.shade300,spreadRadius: 4,
                     blurRadius: 4
 
@@ -125,7 +108,7 @@ mainAxisAlignment: MainAxisAlignment.spaceEvenly,    children: [
                       children: [
                         Image.asset('assets/images/rectangular2.png'),
                         SizedBox(width: 10),
-                        Text("Prime Capital")
+                        Text("Prime Capital"),
                       ]
                       ),
                   ),
@@ -158,18 +141,6 @@ mainAxisAlignment: MainAxisAlignment.spaceEvenly,    children: [
           SizedBox(height: 4),
           Text(title, style: TextStyle(color: Colors.black54)),
         ],
-      ),
-    );
-  }
-
-
-  Widget _buildLegendDot(Color color) {
-    return Container(
-      width: 12,
-      height: 12,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
       ),
     );
   }

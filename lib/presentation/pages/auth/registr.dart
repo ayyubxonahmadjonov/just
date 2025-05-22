@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_project/bloc/registr/auth_registr_bloc.dart';
 import 'package:real_project/core/colors.dart';
-import 'package:real_project/core/common_widgets/custom_button.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
 
 import '../home_screen.dart';
 
 class RegistrationForm extends StatefulWidget {
+  const RegistrationForm({super.key});
+
   @override
   _RegistrationFormState createState() => _RegistrationFormState();
 }
@@ -45,7 +48,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: Container(
-                height: maxHeight*0.53,
+                  height: maxHeight * 0.53,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -97,19 +100,66 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         controller: rePasswordController,
                       ),
                       SizedBox(height: 65),
-                      CustomButton(
-                        route: HomePage(),
-
-                        title: "Ro'yhatdan o’tish",
-                        bacColor: AppColors.primaryColor,
-                        textColor: AppColors.white1,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        borderRadius: 30,
-                        width: maxWidth * 0.8,
-                        height: 60,
+                      BlocConsumer<AuthRegistrBloc, AuthRegistrState>(
+                        listener: (context, state) {
+                          if (state is AuthRegistrSucces) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                              (route) => false,
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return ElevatedButton(
+                            onPressed:
+                                state is AuthRegistrLoading
+                                    ? () {} // loader bo‘layotganda bosib bo‘lmaydi
+                                    : () {
+                                      print('pressed');
+                                      BlocProvider.of<AuthRegistrBloc>(
+                                        context,
+                                      ).add(
+                                        RegistrEvent(
+                                          name: nameController.text,
+                                          gmail: emailController.text,
+                                          password: passwordController.text,
+                                          rePassword: rePasswordController.text,
+                                        ),
+                                      );
+                                    },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              minimumSize: Size(maxWidth * 0.8, 60),
+                            ),
+                            child:
+                                state is AuthRegistrLoading
+                                    ? SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              AppColors.white1,
+                                            ),
+                                        strokeWidth: 3,
+                                      ),
+                                    )
+                                    : Text(
+                                      "Ro'yhatdan o'tish",
+                                      style: TextStyle(
+                                        color: AppColors.white1,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                          );
+                        },
                       ),
-
                     ],
                   ),
                 ),

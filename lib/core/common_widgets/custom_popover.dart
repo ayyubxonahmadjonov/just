@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:real_project/core/common_widgets/custom_copier.dart';
+
+import '../imports.dart';
+
 class MenuItem extends StatefulWidget {
   const MenuItem({super.key});
 

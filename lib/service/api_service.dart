@@ -5,74 +5,60 @@ import 'package:http/http.dart' as http;
 import 'http_inspector.dart';
 import 'http_result.dart';
 
-const bool isDev = false;
-
 class ApiService {
   ApiService._();
-  static const String _baseUrl =
-  isDev ? "http://161.97.140.68:3000/" : "http://161.97.140.68:3000/";
+  static const String _baseUrl = "http://185.42.14.208/";
 
   static Map<String, String> _header() {
     final token = "";
     print('bu token == $token');
     if (token.isEmpty) {
       print('token bosh');
-      return {
-        "Content-Type": "application/json",
-      };
+      return {"Content-Type": "application/json"};
     }
     print('token is not empty $token');
     return {
       "Content-Type": "application/json",
-      "Authorization": 'Bearer $token'
+      "Authorization": 'Bearer $token',
     };
   }
 
   static Map<String, String> _header2() {
-    return {
-      "Content-Type": "application/json",
-    };
+    return {"Content-Type": "application/json"};
   }
 
   //=====LOGIN=====
   static Future<HttpResult> login(String gmail, String password) async {
-    var body = {
-      "email": gmail,
-      "password": password,
-    };
+    var body = {"email": gmail, "password": password};
 
-    return await _post("", body: body);
+    return await _post("api/login/", body: body);
   }
-  static Future<HttpResult> registr(String name,String gmail, String password,String rePassword) async {
-    var body = {
-      "name": name,
-      "email": gmail,
-      "name": rePassword,
 
-      "re": password,
-    };
+  static Future<HttpResult> registr(
+    String name,
+    String gmail,
+    String password,
+  ) async {
+    var body = {"full_name": name, "email": gmail, "password": password};
 
-    return await _post("", body: body);
+    return await _post("api/register/", body: body);
   }
 
   //=====GET ALL COURSES =====
 
-
-
-
   static Future<HttpResult> _post(
-      String path, {
-        Object? body,
-        bool? isSecondHeader = false,
-      }) async {
+    String path, {
+    Object? body,
+    bool? isSecondHeader = false,
+  }) async {
     Uri url = Uri.parse('$_baseUrl$path');
     try {
       http.Response response = await http
           .post(
-        url,
-        body: jsonEncode(body),
-        headers: isSecondHeader == true ? _header2() : _header(),
-      )
+            url,
+            body: jsonEncode(body),
+            headers: isSecondHeader == true ? _header2() : _header(),
+          )
           .timeout(const Duration(seconds: 30));
 
       HttpInspector.onResponse(response);
@@ -99,36 +85,23 @@ class ApiService {
         path: path,
       );
     } catch (err) {
-      return HttpResult(
-        statusCode: -1,
-        result: err,
-        path: path,
-      );
+      return HttpResult(statusCode: -1, result: err, path: path);
     }
   }
 
-  static Future<HttpResult> _get(
-      String path,
-      ) async {
+  static Future<HttpResult> _get(String path) async {
     Uri url;
     url = Uri.parse('$_baseUrl$path');
     try {
       http.Response response = await http
-          .get(
-        url,
-        headers: _header(),
-      )
+          .get(url, headers: _header())
           .timeout(const Duration(seconds: 30));
       HttpInspector.onResponse(response);
 
       var decoded = json.decode(utf8.decode(response.bodyBytes));
 
       if (response.statusCode == 200) {
-        return HttpResult(
-          statusCode: 200,
-          isSuccess: true,
-          result: decoded,
-        );
+        return HttpResult(statusCode: 200, isSuccess: true, result: decoded);
       }
       if (response.statusCode == 401) {
         // Unauthorized().onLogoutPresssed();
@@ -141,12 +114,7 @@ class ApiService {
         method: 'GET',
       );
     } catch (err) {
-      return HttpResult(
-        statusCode: -1,
-        result: err,
-        path: path,
-        method: 'GET',
-      );
+      return HttpResult(statusCode: -1, result: err, path: path, method: 'GET');
     }
   }
 
@@ -155,11 +123,7 @@ class ApiService {
 
     try {
       http.Response response = await http
-          .patch(
-        url,
-        body: jsonEncode(body),
-        headers: _header(),
-      )
+          .patch(url, body: jsonEncode(body), headers: _header())
           .timeout(const Duration(seconds: 30));
       HttpInspector.onResponse(response);
       var decoded = jsonDecode(response.body);
@@ -191,8 +155,6 @@ class ApiService {
       );
     }
   }
-
-
 }
 
 class AppStrings2 {

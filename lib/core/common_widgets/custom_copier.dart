@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:real_project/core/colors.dart';
+
+
+import '../imports.dart';
 
 class CopyCardNumberWidget extends StatefulWidget {
   final String cardNumber;

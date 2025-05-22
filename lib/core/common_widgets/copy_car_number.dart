@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import '../colors.dart';
+
+import '../imports.dart';
 
 class CustomCopier extends StatefulWidget {
   final String cardNumber;

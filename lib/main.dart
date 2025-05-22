@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_project/bloc/login/auth_login_bloc.dart';
-import 'package:real_project/bloc/registr/auth_registr_bloc.dart';
-import 'package:real_project/core/common_widgets/build_icon_button.dart';
-import 'package:real_project/presentation/pages/splash_screen.dart';
+import 'package:real_project/service/shared_preferences)service.dart';
 
-void main() {
+import 'core/imports.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferencesHelper().init();
   runApp(const MyApp());
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_project/core/colors.dart';
 import 'package:real_project/core/common_widgets/custom_button.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
+import 'package:real_project/core/imports.dart';
 import 'package:real_project/presentation/pages/home_screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,10 +28,7 @@ class _LoginPageState extends State<LoginPage> {
           // Ko'k fon yuqori qismi
           Container(
             height: maxHeight * 0.33,
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-
-            ),
+            decoration: BoxDecoration(color: AppColors.primaryColor),
           ),
 
           Align(
@@ -90,19 +88,63 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       SizedBox(height: 20),
-                      CustomButton(
-                        route: HomePage(),
-                        title: "Hisobga kirish",
-                        bacColor: AppColors.primaryColor,
-                        textColor: AppColors.white1,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        borderRadius: 30,
-                        width: maxWidth * 0.8,
-                        height: 60,
+                      BlocConsumer<AuthLoginBloc, AuthLoginState>(
+                        listener: (context, state) {
+                          if (state is AuthLoginSucces) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return HomePage();
+                                },
+                              ),
+                              (route) => false,
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return ElevatedButton(
+                            onPressed: () {
+                              BlocProvider.of<AuthLoginBloc>(context).add(
+                                LoginEvent(
+                                  gmail: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              minimumSize: Size(maxWidth * 0.8, 60),
+                            ),
+                            child:
+                                state is AuthLoginLoading
+                                    ? SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              AppColors.white1,
+                                            ),
+                                        strokeWidth: 3,
+                                      ),
+                                    )
+                                    : Text(
+                                      "Hisobga kirish",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.white1,
+                                      ),
+                                    ),
+                          );
+                        },
                       ),
-                      SizedBox(height: 30),
 
+                      SizedBox(height: 30),
                     ],
                   ),
                 ),

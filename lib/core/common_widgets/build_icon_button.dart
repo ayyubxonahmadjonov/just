@@ -1,35 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:popover/popover.dart';
-import 'package:real_project/core/colors.dart';
-
+import '../imports.dart';
 import 'custom_popover.dart';
-
 class BuildIconButton extends StatefulWidget {
   final String icon;
   final String label;
 
   const BuildIconButton({super.key, required this.icon, required this.label});
-
   @override
   State<BuildIconButton> createState() => _BuildIconButtonState();
 }
-
 class _BuildIconButtonState extends State<BuildIconButton> {
-
   @override
   Widget build(BuildContext context) {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-
     double maxWidth = MediaQuery.of(context).size.width;
     double maxHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
         final RenderBox button = context.findRenderObject() as RenderBox;
         final Offset buttonPosition = button.localToGlobal(Offset.zero);
-        final double buttonHeight = button.size.height; // Tugma balandligi (64px deb oldik)
-        final double dialogWidth = maxWidth * 0.95; // Dialog kengligi
+        final double buttonHeight = button.size.height;
+        final double dialogWidth = maxWidth * 0.95;
         final double dialogHeight = maxHeight * 0.5;
-
         showPopover(
           context: context,
           bodyBuilder: (context) => MenuItem(),
@@ -39,14 +30,14 @@ class _BuildIconButtonState extends State<BuildIconButton> {
           width: dialogWidth,
           height: dialogHeight,
           direction: PopoverDirection.bottom,
-          contentDxOffset: (maxWidth - dialogWidth) / 0.4 - buttonPosition.dx, // X o‘qi bo‘yicha markaz
+          contentDxOffset: (maxWidth - dialogWidth) / 0.4 - buttonPosition.dx,
           contentDyOffset: 10,
         );
       },
       child: _buildIconButton('assets/icons/${widget.icon}', widget.label),
     );
-
   }
+
   Widget _buildIconButton(String icon, String label) {
     return Column(
       children: [
@@ -63,6 +54,5 @@ class _BuildIconButtonState extends State<BuildIconButton> {
         Text(label),
       ],
     );
-  }
-
+    }
 }

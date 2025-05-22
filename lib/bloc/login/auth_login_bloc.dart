@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+
 import 'package:real_project/service/api_service.dart';
+import 'package:real_project/service/shared_preferences)service.dart';
 
 part 'auth_login_event.dart';
 part 'auth_login_state.dart';
@@ -14,7 +15,14 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
     emit(AuthLoginLoading());
     try {
       final result = await ApiService.login(event.gmail, event.password);
+      print(result.result.toString());
       if (result.statusCode == 200 || result.statusCode == 201) {
+        final access = result.result["token"]["access"];
+        final refresh = result.result["token"]["refresh"];
+
+        await SharedPreferencesHelper().setString("access", access);
+        await SharedPreferencesHelper().setString("refresh", refresh);
+
         emit(AuthLoginSucces());
       }
     } catch (e) {
