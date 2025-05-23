@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_project/bloc/registr/auth_registr_bloc.dart';
 import 'package:real_project/core/colors.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
+import 'package:real_project/presentation/pages/error_page.dart';
 
 import '../home_screen.dart';
 
@@ -15,15 +16,15 @@ class RegistrationForm extends StatefulWidget {
 
 class _RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController rePasswordController = TextEditingController();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final rePasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    double maxWidth = MediaQuery.of(context).size.width;
-    double maxHeight = MediaQuery.of(context).size.height;
+    final maxWidth = MediaQuery.of(context).size.width;
+    final maxHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColors.whiteGrey2,
@@ -32,8 +33,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
         children: [
           // Background blue top part
           Container(
-            height: maxHeight * 0.3,
-            decoration: BoxDecoration(color: Colors.blue),
+            height: maxHeight * 0.33,
+            decoration: const BoxDecoration(color: Colors.blue),
           ),
 
           // White card with form on top of blue background
@@ -41,65 +42,86 @@ class _RegistrationFormState extends State<RegistrationForm> {
             alignment: Alignment.center,
             child: SingleChildScrollView(
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 15),
-                padding: EdgeInsets.all(24),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(40),
                 ),
-                child: Container(
-                  height: maxHeight * 0.53,
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(height: 55),
-
+                      const SizedBox(height: 50),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
-
                         color: AppColors.whiteGrey2,
                         textInputType: TextInputType.name,
                         labelText: "Ismingiz",
                         hintText: "Ismingiz",
                         icon: Icons.person,
                         controller: nameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Ismni kiriting";
+                          }
+                          return null;
+                        },
                       ),
-                      SizedBox(height: 18),
+                      const SizedBox(height: 18),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
-
                         textInputType: TextInputType.emailAddress,
                         labelText: "Email pochtangiz",
                         hintText: "Email pochtangiz",
                         icon: Icons.email_outlined,
                         controller: emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Emailni kiriting";
+                          } else if (!value.contains("@")) {
+                            return "Email noto‘g‘ri formatda";
+                          }
+                          return null;
+                        },
                       ),
-                      SizedBox(height: 18),
+                      const SizedBox(height: 18),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
-
                         color: AppColors.whiteGrey2,
-
                         textInputType: TextInputType.visiblePassword,
                         labelText: "Parol yarating",
                         hintText: "Parol yarating",
                         icon: Icons.lock,
                         controller: passwordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.length < 8) {
+                            return "Kamida 8 ta belgidan iborat parol kiriting";
+                          }
+                          return null;
+                        },
                       ),
-                      SizedBox(height: 18),
+                      const SizedBox(height: 18),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
-
                         color: AppColors.whiteGrey2,
-
                         textInputType: TextInputType.visiblePassword,
                         labelText: "Parolni takrorlang",
                         hintText: "Parolni takrorlang",
                         icon: Icons.lock,
                         controller: rePasswordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value != passwordController.text) {
+                            return "Parollar mos emas";
+                          }
+                          return null;
+                        },
                       ),
-                      SizedBox(height: 65),
+                      const SizedBox(height: 65),
                       BlocConsumer<AuthRegistrBloc, AuthRegistrState>(
                         listener: (context, state) {
                           if (state is AuthRegistrSucces) {
@@ -110,25 +132,36 @@ class _RegistrationFormState extends State<RegistrationForm> {
                               ),
                               (route) => false,
                             );
+                          } else if (state is AuthRegistrError) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => const NoconnectionScreen(),
+                              ),
+                              (route) => false,
+                            );
                           }
                         },
                         builder: (context, state) {
                           return ElevatedButton(
                             onPressed:
                                 state is AuthRegistrLoading
-                                    ? () {} // loader bo‘layotganda bosib bo‘lmaydi
+                                    ? null
                                     : () {
-                                      print('pressed');
-                                      BlocProvider.of<AuthRegistrBloc>(
-                                        context,
-                                      ).add(
-                                        RegistrEvent(
-                                          name: nameController.text,
-                                          gmail: emailController.text,
-                                          password: passwordController.text,
-                                          rePassword: rePasswordController.text,
-                                        ),
-                                      );
+                                      if (_formKey.currentState!.validate()) {
+                                        BlocProvider.of<AuthRegistrBloc>(
+                                          context,
+                                        ).add(
+                                          RegistrEvent(
+                                            name: nameController.text.trim(),
+                                            email: emailController.text.trim(),
+                                            password: passwordController.text,
+                                            rePassword:
+                                                rePasswordController.text,
+                                          ),
+                                        );
+                                      }
                                     },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
@@ -139,7 +172,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             ),
                             child:
                                 state is AuthRegistrLoading
-                                    ? SizedBox(
+                                    ? const SizedBox(
                                       height: 24,
                                       width: 24,
                                       child: CircularProgressIndicator(
@@ -150,7 +183,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                         strokeWidth: 3,
                                       ),
                                     )
-                                    : Text(
+                                    : const Text(
                                       "Ro'yhatdan o'tish",
                                       style: TextStyle(
                                         color: AppColors.white1,

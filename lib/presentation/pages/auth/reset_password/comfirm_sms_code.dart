@@ -1,19 +1,22 @@
+import 'package:flutter/material.dart';
+import 'package:real_project/bloc/confirm_smscode/comfirm_smscode_bloc.dart';
+import 'package:real_project/bloc/login/auth_login_bloc.dart';
+import 'package:real_project/core/colors.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
 import 'package:real_project/core/imports.dart';
-import 'package:real_project/presentation/pages/auth/reset_password/reset_password_email.dart';
-import 'package:real_project/presentation/pages/error_page.dart';
 import 'package:real_project/presentation/pages/home_screen.dart';
 
-class LoginPage extends StatefulWidget {
+class ConfirmSmsCode extends StatefulWidget {
+  const ConfirmSmsCode({super.key});
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<ConfirmSmsCode> createState() => _ConfirmSmsCodeState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
+class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
+  TextEditingController newPasController = TextEditingController();
+  TextEditingController smsCodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double maxWidth = MediaQuery.of(context).size.width;
@@ -42,7 +45,6 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Form(
-                  key: _formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -55,63 +57,32 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: "Email pochtangiz",
                         icon: Icons.email_outlined,
                         controller: emailController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Emailni kiriting";
-                          } else if (!value.contains("@")) {
-                            return "Email noto‘g‘ri formatda";
-                          }
-                          return null;
-                        },
                       ),
                       SizedBox(height: 18),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
-                        textInputType: TextInputType.visiblePassword,
-                        labelText: "Parolingiz",
-                        hintText: "Parolingiz",
-                        icon: Icons.lock,
-                        controller: passwordController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Parolni kiriting";
-                          }
-                          if (value.length < 8) {
-                            return "Parol 8 ta belgidan iborat bo'lishi shart";
-                          }
-                          return null;
-                        },
-                        obscureText: true,
+                        textInputType: TextInputType.emailAddress,
+                        labelText: "Kod",
+                        hintText: "Kodni kiriting",
+                        icon: Icons.email_outlined,
+                        controller: smsCodeController,
                       ),
-                      SizedBox(height: 10),
-
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ResetPasswordEmail(),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Parolni unutdingizmi?",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                        ),
+                      SizedBox(height: 18),
+                      CustomTextField(
+                        iconColor: AppColors.whiteGrey1,
+                        color: AppColors.whiteGrey2,
+                        textInputType: TextInputType.emailAddress,
+                        labelText: "Yangi parol",
+                        hintText: "Yangi parol",
+                        icon: Icons.email_outlined,
+                        controller: newPasController,
                       ),
 
-                      SizedBox(height: 20),
-                      BlocConsumer<AuthLoginBloc, AuthLoginState>(
+                      SizedBox(height: maxHeight * 0.065),
+                      BlocConsumer<ComfirmSmscodeBloc, ComfirmSmscodeState>(
                         listener: (context, state) {
-                          if (state is AuthLoginSucces) {
+                          if (state is ConfirmSmsCodeSuccesState) {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
@@ -121,36 +92,19 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               (route) => false,
                             );
-                          } else if (state is AuthLoginError) {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return NoconnectionScreen();
-                                },
-                              ),
-                              (route) => false,
-                            );
                           }
                         },
                         builder: (context, state) {
                           return ElevatedButton(
-                            onPressed:
-                                state is AuthLoginLoading
-                                    ? null
-                                    : () {
-                                      if (_formKey.currentState!.validate()) {
-                                        BlocProvider.of<AuthLoginBloc>(
-                                          context,
-                                        ).add(
-                                          LoginEvent(
-                                            email: emailController.text.trim(),
-                                            password:
-                                                passwordController.text.trim(),
-                                          ),
-                                        );
-                                      }
-                                    },
+                            onPressed: () {
+                              BlocProvider.of<ComfirmSmscodeBloc>(context).add(
+                                ComfirmCodeEmailEvent(
+                                  email: emailController.text,
+                                  sms_code: smsCodeController.text,
+                                  newPassword: newPasController.text,
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(
@@ -172,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     )
                                     : Text(
-                                      "Hisobga kirish",
+                                      "Tasdiqlash",
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600,

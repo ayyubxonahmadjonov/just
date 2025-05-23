@@ -28,22 +28,37 @@ class ApiService {
   }
 
   //=====LOGIN=====
-  static Future<HttpResult> login(String gmail, String password) async {
-    var body = {"email": gmail, "password": password};
+  static Future<HttpResult> login(String email, String password) async {
+    var body = {"email": email, "password": password};
 
     return await _post("api/login/", body: body);
   }
 
   static Future<HttpResult> registr(
     String name,
-    String gmail,
+    String email,
     String password,
   ) async {
-    var body = {"full_name": name, "email": gmail, "password": password};
+    var body = {"full_name": name, "email": email, "password": password};
 
     return await _post("api/register/", body: body);
   }
 
+  static Future<HttpResult> resetPasswordbyEmail(String email) async {
+    var body = {"email": email};
+
+    return await _post("api/forgot-password/send-code/", body: body);
+  }
+
+  static Future<HttpResult> confirmSmsCode(
+    String email,
+    String code,
+    String new_Password,
+  ) async {
+    var body = {"email": email, "code": code, "new_password": new_Password};
+
+    return await _post("api/forgot-password/reset/", body: body);
+  }
   //=====GET ALL COURSES =====
 
   static Future<HttpResult> _post(

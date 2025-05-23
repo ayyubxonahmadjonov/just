@@ -1,5 +1,3 @@
-
-
 import '../../core/imports.dart';
 
 class SplashScreen extends StatefulWidget {

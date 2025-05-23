@@ -23,7 +23,7 @@ class AuthRegistrBloc extends Bloc<AuthRegistrEvent, AuthRegistrState> {
     try {
       final result = await ApiService.registr(
         event.name,
-        event.gmail,
+        event.email,
         event.password,
       );
       print('result == ${result.result.toString()}');

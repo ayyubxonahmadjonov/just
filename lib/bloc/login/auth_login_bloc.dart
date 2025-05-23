@@ -14,7 +14,7 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
   Future<void> login(LoginEvent event, Emitter<AuthLoginState> emit) async {
     emit(AuthLoginLoading());
     try {
-      final result = await ApiService.login(event.gmail, event.password);
+      final result = await ApiService.login(event.email, event.password);
       print(result.result.toString());
       if (result.statusCode == 200 || result.statusCode == 201) {
         final access = result.result["token"]["access"];

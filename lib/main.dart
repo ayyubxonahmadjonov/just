@@ -1,3 +1,5 @@
+import 'package:real_project/bloc/confirm_smscode/comfirm_smscode_bloc.dart';
+import 'package:real_project/bloc/reset_password/reset_password_bloc.dart';
 import 'package:real_project/service/shared_preferences)service.dart';
 
 import 'core/imports.dart';
@@ -18,6 +20,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthLoginBloc()),
         BlocProvider(create: (context) => AuthRegistrBloc()),
+        BlocProvider(create: (context) => ResetPasswordBloc()),
+        BlocProvider(create: (context) => ComfirmSmscodeBloc()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
