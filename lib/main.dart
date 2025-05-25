@@ -1,4 +1,6 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_project/bloc/confirm_smscode/comfirm_smscode_bloc.dart';
+import 'package:real_project/bloc/profile/get_profile_bloc.dart';
 import 'package:real_project/bloc/reset_password/reset_password_bloc.dart';
 import 'package:real_project/service/shared_preferences)service.dart';
 
@@ -7,7 +9,13 @@ import 'core/imports.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferencesHelper().init();
-  runApp(const MyApp());
+  runApp(
+    ScreenUtilInit(
+      designSize: Size(375, 812), // iPhone 11 Pro Max screen size as base
+      minTextAdapt: true,
+      builder: (_, __) => MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,6 +30,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthRegistrBloc()),
         BlocProvider(create: (context) => ResetPasswordBloc()),
         BlocProvider(create: (context) => ComfirmSmscodeBloc()),
+        BlocProvider(create: (context) => GetProfileBloc()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

@@ -2,7 +2,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:real_project/core/imports.dart';
 
 class NoconnectionScreen extends StatelessWidget {
-  const NoconnectionScreen({super.key});
+  final String error;
+  const NoconnectionScreen({super.key, required this.error});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class NoconnectionScreen extends StatelessWidget {
               ErrorInfo(
                 title: "Opps!....",
                 description:
-                    "Something wrong with your connection, Please try again after a moment.",
+                    "Nimadir Xato , $error,iltimos keyinroq urunib ko'ring",
 
                 press: () {
                   Navigator.pushAndRemoveUntil(

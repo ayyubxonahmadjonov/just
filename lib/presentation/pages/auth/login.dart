@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
 import 'package:real_project/core/imports.dart';
 import 'package:real_project/presentation/pages/auth/reset_password/reset_password_email.dart';
@@ -16,37 +17,34 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    double maxWidth = MediaQuery.of(context).size.width;
-    double maxHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: AppColors.whiteGrey2,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Ko'k fon yuqori qismi
+          // Yuqori fon
           Container(
-            height: maxHeight * 0.33,
+            height: 0.33.sh,
             decoration: BoxDecoration(color: AppColors.primaryColor),
           ),
 
           Align(
             alignment: Alignment.topCenter,
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: maxHeight * 0.25),
+              padding: EdgeInsets.only(top: 0.25.sh),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 15),
-                padding: EdgeInsets.all(24),
+                margin: EdgeInsets.symmetric(horizontal: 15.w),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(30.r),
                 ),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(height: 50),
+                      SizedBox(height: 40.h),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
@@ -64,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 18),
+                      SizedBox(height: 18.h),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
@@ -84,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         obscureText: true,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 10.h),
 
                       Align(
                         alignment: Alignment.centerRight,
@@ -100,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Text(
                             "Parolni unutdingizmi?",
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.primaryColor,
                             ),
@@ -108,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
 
-                      SizedBox(height: 20),
+                      SizedBox(height: 30.h),
                       BlocConsumer<AuthLoginBloc, AuthLoginState>(
                         listener: (context, state) {
                           if (state is AuthLoginSucces) {
@@ -126,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return NoconnectionScreen();
+                                  return NoconnectionScreen(error: state.error);
                                 },
                               ),
                               (route) => false,
@@ -154,15 +152,15 @@ class _LoginPageState extends State<LoginPage> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(30.r),
                               ),
-                              minimumSize: Size(maxWidth * 0.8, 60),
+                              minimumSize: Size(0.8.sw, 55.h),
                             ),
                             child:
                                 state is AuthLoginLoading
                                     ? SizedBox(
-                                      height: 24,
-                                      width: 24,
+                                      height: 24.h,
+                                      width: 24.h,
                                       child: CircularProgressIndicator(
                                         valueColor:
                                             AlwaysStoppedAnimation<Color>(
@@ -174,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                                     : Text(
                                       "Hisobga kirish",
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 20.sp,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.white1,
                                       ),
@@ -183,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
 
-                      SizedBox(height: 30),
+                      SizedBox(height: 20.h),
                     ],
                   ),
                 ),

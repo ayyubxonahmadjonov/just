@@ -16,6 +16,7 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
     try {
       final result = await ApiService.login(event.email, event.password);
       print(result.result.toString());
+      print(result.result['error']);
       if (result.statusCode == 200 || result.statusCode == 201) {
         final access = result.result["token"]["access"];
         final refresh = result.result["token"]["refresh"];
@@ -24,6 +25,8 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
         await SharedPreferencesHelper().setString("refresh", refresh);
 
         emit(AuthLoginSucces());
+      } else {
+        emit(AuthLoginError(error: result.result.toString()));
       }
     } catch (e) {
       emit(AuthLoginError(error: "something went wrong $e"));

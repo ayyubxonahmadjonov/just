@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:real_project/service/shared_preferences)service.dart';
 
 import 'http_inspector.dart';
 import 'http_result.dart';
@@ -10,13 +11,15 @@ class ApiService {
   static const String _baseUrl = "http://185.42.14.208/";
 
   static Map<String, String> _header() {
-    final token = "";
+    final token = SharedPreferencesHelper().getString("access").toString();
     print('bu token == $token');
-    if (token.isEmpty) {
+    if (token.isEmpty || token == "null") {
       print('token bosh');
       return {"Content-Type": "application/json"};
     }
     print('token is not empty $token');
+    print("Authorization header: Bearer $token");
+
     return {
       "Content-Type": "application/json",
       "Authorization": 'Bearer $token',
@@ -58,6 +61,10 @@ class ApiService {
     var body = {"email": email, "code": code, "new_password": new_Password};
 
     return await _post("api/forgot-password/reset/", body: body);
+  }
+
+  static Future<HttpResult> getProfile() async {
+    return await _get("api/profile/");
   }
   //=====GET ALL COURSES =====
 

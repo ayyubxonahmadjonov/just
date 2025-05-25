@@ -37,6 +37,9 @@ class AuthRegistrBloc extends Bloc<AuthRegistrEvent, AuthRegistrState> {
         print('succes');
 
         emit(AuthRegistrSucces());
+      } else {
+        print('elseda');
+        emit(AuthRegistrError(error: result.result.toString()));
       }
     } catch (e) {
       print('error == $e');

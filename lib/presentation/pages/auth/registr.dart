@@ -4,6 +4,7 @@ import 'package:real_project/bloc/registr/auth_registr_bloc.dart';
 import 'package:real_project/core/colors.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
 import 'package:real_project/presentation/pages/error_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../home_screen.dart';
 
@@ -23,37 +24,34 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   @override
   Widget build(BuildContext context) {
-    final maxWidth = MediaQuery.of(context).size.width;
-    final maxHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: AppColors.whiteGrey2,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Background blue top part
+          // Blue upper background
           Container(
-            height: maxHeight * 0.33,
+            height: 0.33.sh,
             decoration: const BoxDecoration(color: Colors.blue),
           ),
 
-          // White card with form on top of blue background
+          // White form card
           Align(
             alignment: Alignment.center,
             child: SingleChildScrollView(
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                padding: const EdgeInsets.all(20),
+                margin: EdgeInsets.symmetric(horizontal: 15.w),
+                padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(40.r),
                 ),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: 50),
+                      SizedBox(height: 40.h),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
@@ -62,14 +60,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         hintText: "Ismingiz",
                         icon: Icons.person,
                         controller: nameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Ismni kiriting";
-                          }
-                          return null;
-                        },
+                        validator:
+                            (value) =>
+                                value == null || value.isEmpty
+                                    ? "Ismni kiriting"
+                                    : null,
                       ),
-                      const SizedBox(height: 18),
+                      SizedBox(height: 18.h),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
@@ -87,7 +84,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 18),
+                      SizedBox(height: 18.h),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
@@ -97,14 +94,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         icon: Icons.lock,
                         controller: passwordController,
                         obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.length < 8) {
-                            return "Kamida 8 ta belgidan iborat parol kiriting";
-                          }
-                          return null;
-                        },
+                        validator:
+                            (value) =>
+                                value == null || value.length < 8
+                                    ? "Kamida 8 ta belgidan iborat parol kiriting"
+                                    : null,
                       ),
-                      const SizedBox(height: 18),
+                      SizedBox(height: 18.h),
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
@@ -114,22 +110,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         icon: Icons.lock,
                         controller: rePasswordController,
                         obscureText: true,
-                        validator: (value) {
-                          if (value != passwordController.text) {
-                            return "Parollar mos emas";
-                          }
-                          return null;
-                        },
+                        validator:
+                            (value) =>
+                                value != passwordController.text
+                                    ? "Parollar mos emas"
+                                    : null,
                       ),
-                      const SizedBox(height: 65),
+                      SizedBox(height: 50.h),
                       BlocConsumer<AuthRegistrBloc, AuthRegistrState>(
                         listener: (context, state) {
                           if (state is AuthRegistrSucces) {
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
+                              MaterialPageRoute(builder: (_) => HomePage()),
                               (route) => false,
                             );
                           } else if (state is AuthRegistrError) {
@@ -137,7 +130,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
                               context,
                               MaterialPageRoute(
                                 builder:
-                                    (context) => const NoconnectionScreen(),
+                                    (_) =>
+                                        NoconnectionScreen(error: state.error),
                               ),
                               (route) => false,
                             );
@@ -166,16 +160,16 @@ class _RegistrationFormState extends State<RegistrationForm> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(30.r),
                               ),
-                              minimumSize: Size(maxWidth * 0.8, 60),
+                              minimumSize: Size(0.8.sw, 55.h),
                             ),
                             child:
                                 state is AuthRegistrLoading
-                                    ? const SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: CircularProgressIndicator(
+                                    ? SizedBox(
+                                      height: 24.h,
+                                      width: 24.h,
+                                      child: const CircularProgressIndicator(
                                         valueColor:
                                             AlwaysStoppedAnimation<Color>(
                                               AppColors.white1,
@@ -183,16 +177,17 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                         strokeWidth: 3,
                                       ),
                                     )
-                                    : const Text(
+                                    : Text(
                                       "Ro'yhatdan o'tish",
                                       style: TextStyle(
                                         color: AppColors.white1,
-                                        fontSize: 20,
+                                        fontSize: 20.sp,
                                       ),
                                     ),
                           );
                         },
                       ),
+                      SizedBox(height: 20.h),
                     ],
                   ),
                 ),
