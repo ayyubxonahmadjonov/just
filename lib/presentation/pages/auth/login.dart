@@ -1,9 +1,4 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:real_project/core/common_widgets/custom_textfield.dart';
-import 'package:real_project/core/imports.dart';
-import 'package:real_project/presentation/pages/auth/reset_password/reset_password_email.dart';
-import 'package:real_project/presentation/pages/error_page.dart';
-import 'package:real_project/presentation/pages/home_screen.dart';
+import 'package:real_project/core/constants/app_imports.dart';
 
 class LoginPage extends StatefulWidget {
   @override

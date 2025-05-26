@@ -1,10 +1,4 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:real_project/bloc/confirm_smscode/comfirm_smscode_bloc.dart';
-import 'package:real_project/bloc/profile/get_profile_bloc.dart';
-import 'package:real_project/bloc/reset_password/reset_password_bloc.dart';
-import 'package:real_project/service/shared_preferences)service.dart';
-
-import 'core/imports.dart';
+import 'core/constants/app_imports.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

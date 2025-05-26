@@ -1,12 +1,8 @@
-import 'package:real_project/bloc/reset_password/reset_password_bloc.dart';
-import 'package:real_project/core/common_widgets/custom_textfield.dart';
-import 'package:real_project/core/imports.dart';
-import 'package:real_project/presentation/pages/auth/reset_password/comfirm_sms_code.dart';
-import 'package:real_project/presentation/pages/error_page.dart';
-import 'package:real_project/presentation/pages/home_screen.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:real_project/core/constants/app_imports.dart';
 
 class ResetPasswordEmail extends StatefulWidget {
+  const ResetPasswordEmail({super.key});
+
   @override
   _ResetPasswordEmailState createState() => _ResetPasswordEmailState();
 }

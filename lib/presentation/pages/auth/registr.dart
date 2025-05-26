@@ -1,12 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_project/bloc/registr/auth_registr_bloc.dart';
-import 'package:real_project/core/colors.dart';
-import 'package:real_project/core/common_widgets/custom_textfield.dart';
-import 'package:real_project/presentation/pages/error_page.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../home_screen.dart';
+import '../../../core/constants/app_imports.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({super.key});

@@ -1,12 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:real_project/bloc/confirm_smscode/comfirm_smscode_bloc.dart';
-import 'package:real_project/bloc/login/auth_login_bloc.dart';
-import 'package:real_project/core/colors.dart';
-import 'package:real_project/core/common_widgets/custom_textfield.dart';
-import 'package:real_project/core/imports.dart';
-import 'package:real_project/presentation/pages/error_page.dart';
-import 'package:real_project/presentation/pages/home_screen.dart';
+import 'package:real_project/core/constants/app_imports.dart';
 
 class ConfirmSmsCode extends StatefulWidget {
   const ConfirmSmsCode({super.key});
