@@ -3,6 +3,7 @@ import 'package:real_project/core/common_widgets/custom_textfield.dart';
 import 'package:real_project/core/imports.dart';
 import 'package:real_project/presentation/pages/auth/reset_password/comfirm_sms_code.dart';
 import 'package:real_project/presentation/pages/home_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResetPasswordEmail extends StatefulWidget {
   @override
@@ -16,37 +17,35 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
 
   @override
   Widget build(BuildContext context) {
-    double maxWidth = MediaQuery.of(context).size.width;
-    double maxHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: AppColors.whiteGrey2,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Ko'k fon yuqori qismi
+          // Yuqori qismdagi ko'k fon
           Container(
-            height: maxHeight * 0.33,
+            height: 280.h,
             decoration: BoxDecoration(color: AppColors.primaryColor),
           ),
 
           Align(
             alignment: Alignment.topCenter,
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: maxHeight * 0.25),
+              padding: EdgeInsets.only(top: 220.h),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 15),
-                padding: EdgeInsets.all(24),
+                margin: EdgeInsets.symmetric(horizontal: 15.w),
+                padding: EdgeInsets.all(24.w),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(30.r),
                 ),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(height: 50),
+                      SizedBox(height: 40.h),
+
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
@@ -57,7 +56,8 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                         controller: emailController,
                       ),
 
-                      SizedBox(height: maxHeight * 0.065),
+                      SizedBox(height: 50.h),
+
                       BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
                         listener: (context, state) {
                           if (state is ResetPasswordSuccesState) {
@@ -81,14 +81,14 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(30.r),
                               ),
-                              minimumSize: Size(maxWidth * 0.8, 60),
+                              minimumSize: Size(0.8.sw, 55.h),
                             ),
                             child: Text(
                               "Kod yuborish",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.white1,
                               ),
@@ -97,7 +97,7 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                         },
                       ),
 
-                      SizedBox(height: 30),
+                      SizedBox(height: 20.h),
                     ],
                   ),
                 ),

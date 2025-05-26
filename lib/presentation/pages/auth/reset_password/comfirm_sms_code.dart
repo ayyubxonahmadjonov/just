@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_project/bloc/confirm_smscode/comfirm_smscode_bloc.dart';
 import 'package:real_project/bloc/login/auth_login_bloc.dart';
 import 'package:real_project/core/colors.dart';
@@ -17,38 +18,38 @@ class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
   TextEditingController emailController = TextEditingController();
   TextEditingController newPasController = TextEditingController();
   TextEditingController smsCodeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    double maxWidth = MediaQuery.of(context).size.width;
-    double maxHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: AppColors.whiteGrey2,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          // Ko'k fon yuqori qismi
+          /// Yuqori fon qismi (ko'k rang)
           Container(
-            height: maxHeight * 0.33,
+            height: 0.33.sh,
             decoration: BoxDecoration(color: AppColors.primaryColor),
           ),
 
           Align(
             alignment: Alignment.topCenter,
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: maxHeight * 0.25),
+              padding: EdgeInsets.only(top: 0.25.sh),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 15),
-                padding: EdgeInsets.all(24),
+                margin: EdgeInsets.symmetric(horizontal: 15.w),
+                padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(30.r),
                 ),
                 child: Form(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(height: 50),
+                      SizedBox(height: 40.h),
+
+                      /// Email
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
@@ -58,37 +59,43 @@ class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
                         icon: Icons.email_outlined,
                         controller: emailController,
                       ),
-                      SizedBox(height: 18),
+
+                      SizedBox(height: 18.h),
+
+                      /// Kod
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.text,
                         labelText: "Kod",
                         hintText: "Kodni kiriting",
-                        icon: Icons.email_outlined,
+                        icon: Icons.lock_outline,
                         controller: smsCodeController,
                       ),
-                      SizedBox(height: 18),
+
+                      SizedBox(height: 18.h),
+
+                      /// Yangi parol
                       CustomTextField(
                         iconColor: AppColors.whiteGrey1,
                         color: AppColors.whiteGrey2,
-                        textInputType: TextInputType.emailAddress,
+                        textInputType: TextInputType.visiblePassword,
                         labelText: "Yangi parol",
                         hintText: "Yangi parol",
-                        icon: Icons.email_outlined,
+                        icon: Icons.lock_outline,
                         controller: newPasController,
                       ),
 
-                      SizedBox(height: maxHeight * 0.065),
+                      SizedBox(height: 0.07.sh),
+
+                      /// Tasdiqlash tugmasi
                       BlocConsumer<ComfirmSmscodeBloc, ComfirmSmscodeState>(
                         listener: (context, state) {
                           if (state is ConfirmSmsCodeSuccesState) {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) {
-                                  return HomePage();
-                                },
+                                builder: (context) => HomePage(),
                               ),
                               (route) => false,
                             );
@@ -108,15 +115,15 @@ class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(30.r),
                               ),
-                              minimumSize: Size(maxWidth * 0.8, 60),
+                              minimumSize: Size(0.8.sw, 55.h),
                             ),
                             child:
                                 state is AuthLoginLoading
                                     ? SizedBox(
-                                      height: 24,
-                                      width: 24,
+                                      height: 24.h,
+                                      width: 24.h,
                                       child: CircularProgressIndicator(
                                         valueColor:
                                             AlwaysStoppedAnimation<Color>(
@@ -128,7 +135,7 @@ class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
                                     : Text(
                                       "Tasdiqlash",
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 20.sp,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.white1,
                                       ),
@@ -137,7 +144,7 @@ class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
                         },
                       ),
 
-                      SizedBox(height: 30),
+                      SizedBox(height: 20.h),
                     ],
                   ),
                 ),
