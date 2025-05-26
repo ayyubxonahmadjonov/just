@@ -2,6 +2,7 @@ import 'package:real_project/bloc/reset_password/reset_password_bloc.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
 import 'package:real_project/core/imports.dart';
 import 'package:real_project/presentation/pages/auth/reset_password/comfirm_sms_code.dart';
+import 'package:real_project/presentation/pages/error_page.dart';
 import 'package:real_project/presentation/pages/home_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -67,6 +68,15 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                                 builder: (context) => ConfirmSmsCode(),
                               ),
                             );
+                          } else if (state is ResetPasswordErrorState) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        NoconnectionScreen(error: state.error),
+                              ),
+                            );
                           }
                         },
                         builder: (context, state) {
@@ -78,6 +88,7 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                                 ),
                               );
                             },
+
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(

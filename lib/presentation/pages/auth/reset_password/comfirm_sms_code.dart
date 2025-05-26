@@ -5,6 +5,7 @@ import 'package:real_project/bloc/login/auth_login_bloc.dart';
 import 'package:real_project/core/colors.dart';
 import 'package:real_project/core/common_widgets/custom_textfield.dart';
 import 'package:real_project/core/imports.dart';
+import 'package:real_project/presentation/pages/error_page.dart';
 import 'package:real_project/presentation/pages/home_screen.dart';
 
 class ConfirmSmsCode extends StatefulWidget {
@@ -96,6 +97,16 @@ class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => HomePage(),
+                              ),
+                              (route) => false,
+                            );
+                          } else if (state is ConfirmSmsCodeErrorState) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) =>
+                                        NoconnectionScreen(error: state.error),
                               ),
                               (route) => false,
                             );

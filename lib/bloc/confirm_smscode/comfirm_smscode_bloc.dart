@@ -26,6 +26,8 @@ class ComfirmSmscodeBloc
       if (result.statusCode == 200 || result.statusCode == 201) {
         emit(ConfirmSmsCodeSuccesState());
         print("succes");
+      } else {
+        emit(ConfirmSmsCodeErrorState(error: result.result.toString()));
       }
     } catch (e) {
       emit(ConfirmSmsCodeErrorState(error: "something went wrong $e"));

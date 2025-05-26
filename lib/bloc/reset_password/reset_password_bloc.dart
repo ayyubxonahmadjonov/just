@@ -21,6 +21,8 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
       if (result.statusCode == 200 || result.statusCode == 201) {
         emit(ResetPasswordSuccesState());
         print("succes");
+      } else {
+        emit(ResetPasswordErrorState(error: result.result.toString()));
       }
     } catch (e) {
       emit(ResetPasswordErrorState(error: "something wrong $e"));
