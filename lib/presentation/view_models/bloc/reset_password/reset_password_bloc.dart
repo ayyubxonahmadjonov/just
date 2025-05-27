@@ -13,11 +13,8 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
     emit(ResetPasswordLoadingState());
     try {
       final result = await ApiService.resetPasswordbyEmail(event.email);
-      print(result.result.toString());
-      print(result.statusCode);
       if (result.statusCode == 200 || result.statusCode == 201) {
         emit(ResetPasswordSuccesState());
-        print("succes");
       } else {
         emit(ResetPasswordErrorState(error: result.result.toString()));
       }

@@ -1,22 +1,17 @@
 import 'package:http/http.dart' as http;
 import 'package:real_project/data/datasources/network/http_inspector.dart';
 import 'package:real_project/data/models/http_result.dart';
-
+import 'package:real_project/main.dart';
 import '../../../core/constants/app_imports.dart';
 
 class ApiService {
   ApiService._();
   static const String _baseUrl = "http://185.42.14.208/";
-
   static Map<String, String> _header() {
     final token = SharedPreferencesHelper().getString("access").toString();
-    print('bu token == $token');
     if (token.isEmpty || token == "null") {
-      print('token bosh');
       return {"Content-Type": "application/json"};
     }
-    print('token is not empty $token');
-    print("Authorization header: Bearer $token");
 
     return {
       "Content-Type": "application/json",
@@ -67,20 +62,11 @@ class ApiService {
 
   static Future<bool> refreshAccessToken() async {
     String? refreshToken = await SharedPreferencesHelper().getString("refresh");
-    if (refreshToken?.isNotEmpty ?? false || refreshToken == "null")
-      return false;
 
-    print('11111111111111111111111111111111111111111');
-    print(refreshToken);
-
-    Uri url = Uri.parse('$_baseUrl/api/token/refresh/');
+    Uri url = Uri.parse('http://185.42.14.208/api/api/token/refresh/');
     try {
       var response = await http
-          .post(
-            url,
-            body: jsonEncode({"refresh": refreshToken}),
-            headers: {"Content-Type": "application/json"},
-          )
+          .post(url, body: {"refresh": refreshToken})
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
@@ -91,14 +77,33 @@ class ApiService {
         await SharedPreferencesHelper().setString("access", newAccess);
         await SharedPreferencesHelper().setString("refresh", newRefresh);
 
-        print("Token successfully refreshed");
         return true;
       } else {
-        print("Refresh failed: ${response.body}");
+        /// Tokenlarni o'chiramiz
+        await SharedPreferencesHelper().remove("access");
+        await SharedPreferencesHelper().remove("refresh");
+        await SharedPreferencesHelper().remove("user");
+
+        /// SplashScreen ga redirect qilamiz
+        navigatorKey.currentState?.pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => SplashScreen()),
+          (route) => false,
+        );
+
         return false;
       }
     } catch (e) {
-      print("Exception during refresh: $e");
+      /// Tokenlarni o'chiramiz
+      await SharedPreferencesHelper().remove("access");
+      await SharedPreferencesHelper().remove("refresh");
+      await SharedPreferencesHelper().remove("user");
+
+      /// SplashScreen ga redirect qilamiz
+      navigatorKey.currentState?.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => SplashScreen()),
+        (route) => false,
+      );
+
       return false;
     }
   }
@@ -150,6 +155,8 @@ class ApiService {
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 401) {
+        print("kod 401 request ketdi");
+
         final isRefreshed = await refreshAccessToken();
         if (isRefreshed) {
           return await _get(path); // Qayta yuborish
@@ -162,11 +169,7 @@ class ApiService {
 
       if (response.statusCode == 200) {
         return HttpResult(statusCode: 200, isSuccess: true, result: decoded);
-      } else {
-        print('something went wrong');
-        print(response.body.runtimeType);
-        print(response.body);
-      }
+      } else {}
       return HttpResult(
         statusCode: response.statusCode,
         // result: decoded['message'].toString(),

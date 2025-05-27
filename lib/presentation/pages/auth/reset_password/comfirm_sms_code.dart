@@ -1,4 +1,5 @@
 import 'package:real_project/core/constants/app_imports.dart';
+import 'package:real_project/presentation/widgets/custom_awesomedialog.dart';
 
 class ConfirmSmsCode extends StatefulWidget {
   const ConfirmSmsCode({super.key});
@@ -85,12 +86,8 @@ class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
                       BlocConsumer<ComfirmSmscodeBloc, ComfirmSmscodeState>(
                         listener: (context, state) {
                           if (state is ConfirmSmsCodeSuccesState) {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                              (route) => false,
+                            CustomAwesomeDialog.showPasswordResetSuccess(
+                              context: context,
                             );
                           } else if (state is ConfirmSmsCodeErrorState) {
                             Navigator.pushAndRemoveUntil(

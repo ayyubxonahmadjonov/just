@@ -11,7 +11,6 @@ class AuthRegistrBloc extends Bloc<AuthRegistrEvent, AuthRegistrState> {
     RegistrEvent event,
     Emitter<AuthRegistrState> emit,
   ) async {
-    print('authRegistrBloc');
     emit(AuthRegistrLoading());
     try {
       final result = await ApiService.registr(
@@ -19,7 +18,6 @@ class AuthRegistrBloc extends Bloc<AuthRegistrEvent, AuthRegistrState> {
         event.email,
         event.password,
       );
-      print('result == ${result.result.toString()}');
 
       if (result.statusCode == 200 || result.statusCode == 201) {
         final access = result.result["token"]["access"];
@@ -31,7 +29,6 @@ class AuthRegistrBloc extends Bloc<AuthRegistrEvent, AuthRegistrState> {
         emit(AuthRegistrError(error: result.result.toString()));
       }
     } catch (e) {
-      print('error == $e');
       emit(AuthRegistrError(error: "something went wrong $e"));
     }
   }

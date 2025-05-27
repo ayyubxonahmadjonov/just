@@ -19,12 +19,9 @@ class ComfirmSmscodeBloc
         event.sms_code,
         event.newPassword,
       );
-      print(result.result.toString());
-      print(result.statusCode);
       if (result.statusCode == 200 || result.statusCode == 201) {
         emit(ConfirmSmsCodeSuccesState());
-        print("succes");
-      } else {
+      } else if (result.statusCode == 400) {
         emit(ConfirmSmsCodeErrorState(error: result.result.toString()));
       }
     } catch (e) {

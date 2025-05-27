@@ -1,3 +1,5 @@
+import 'package:real_project/presentation/widgets/custom_diagra.dart';
+
 import '../../../core/constants/app_imports.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,6 +15,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  int price1 = 0;
+  int price = 0;
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -136,6 +141,7 @@ class _HomePageState extends State<HomePage> {
                           BuildIconButton(icon: "contact.png", label: "Aloqa"),
                         ],
                       ),
+
                       Container(
                         width: 0.85.sw,
                         margin: EdgeInsets.only(top: 40.h),
@@ -192,6 +198,10 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
+
+                      // CustomDiagram(
+                      //   price1: state.user.phpInvestBalance.toDouble(),
+                      // ),
                     ],
                   ),
                 ],
@@ -199,8 +209,10 @@ class _HomePageState extends State<HomePage> {
             );
           } else if (state is GetProfileLoading) {
             return Center(child: CircularProgressIndicator());
+          } else if (state is GetProfileError) {
+            return Center(child: Text(state.error));
           } else {
-            return Center(child: Text("Something wrong"));
+            return Text('data yoq');
           }
         },
       ),

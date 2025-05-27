@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:real_project/presentation/pages/auth/login.dart';
+
+class CustomAwesomeDialog {
+  static void showPasswordResetSuccess({required BuildContext context}) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.success,
+      animType: AnimType.rightSlide,
+      title: "Parol yangilandi",
+      dismissOnTouchOutside: false,
+      dismissOnBackKeyPress: false,
+      desc:
+          "Parolingiz muvoffaqiyatli yangilandi. Iltimos, qayta tizimga kiring.",
+      btnOkText: "OK",
+
+      btnCancelText: "Bekor qilish",
+      btnOkColor: Colors.green,
+      btnCancelOnPress: () {
+        _navigateToLogin(context);
+      },
+      btnOkOnPress: () {
+        _navigateToLogin(context);
+      },
+    ).show();
+  }
+
+  static void _navigateToLogin(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => LoginPage()),
+      (route) => false,
+    );
+  }
+}

@@ -28,7 +28,7 @@ class NoconnectionScreen extends StatelessWidget {
               ErrorInfo(
                 title: "Opps!....",
                 description:
-                    "Nimadir Xato , $error,iltimos keyinroq urunib ko'ring",
+                    "Nimadir Xato , $error,iltimos qayta urunib ko'ring",
 
                 press: () {
                   Navigator.pushAndRemoveUntil(

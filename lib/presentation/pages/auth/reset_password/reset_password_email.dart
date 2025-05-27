@@ -51,6 +51,11 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                         hintText: "Email pochtangiz",
                         icon: Icons.email_outlined,
                         controller: emailController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Email pochtangizni kiriting";
+                          }
+                        },
                       ),
 
                       SizedBox(height: 50.h),
@@ -76,30 +81,54 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                           }
                         },
                         builder: (context, state) {
-                          return ElevatedButton(
-                            onPressed: () {
-                              BlocProvider.of<ResetPasswordBloc>(context).add(
-                                ResetPasswordbyEmailEvent(
-                                  email: emailController.text,
-                                ),
-                              );
-                            },
+                          bool isLoading = state is ResetPasswordLoadingState;
 
+                          return ElevatedButton(
+                            onPressed:
+                                isLoading
+                                    ? null
+                                    : () {
+                                      if (_formKey.currentState!.validate()) {
+                                        BlocProvider.of<ResetPasswordBloc>(
+                                          context,
+                                        ).add(
+                                          ResetPasswordbyEmailEvent(
+                                            email: emailController.text,
+                                          ),
+                                        );
+                                      }
+                                    },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
+                              backgroundColor:
+                                  isLoading
+                                      ? AppColors.primaryColor.withOpacity(0.6)
+                                      : AppColors.primaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.r),
                               ),
                               minimumSize: Size(0.8.sw, 55.h),
                             ),
-                            child: Text(
-                              "Kod yuborish",
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.white1,
-                              ),
-                            ),
+                            child:
+                                isLoading
+                                    ? SizedBox(
+                                      height: 24.h,
+                                      width: 24.h,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.5,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              AppColors.white1,
+                                            ),
+                                      ),
+                                    )
+                                    : Text(
+                                      "Kod yuborish",
+                                      style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.white1,
+                                      ),
+                                    ),
                           );
                         },
                       ),

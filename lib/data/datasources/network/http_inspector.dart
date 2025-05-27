@@ -8,22 +8,9 @@ import 'http_response.dart';
 
 class HttpInspector {
   const HttpInspector._();
-  // static final Alice _alice = Alice(navigatorKey: AppNavigator.navigatorKey);
+
   static onResponse(http.Response response) {
-    if (kDebugMode) {
-      // var decoded = jsonDecode(response.body);
-      // String str = const JsonEncoder.withIndent(' ').convert(decoded);
-      // str.printf(name: 'HttpInspector');
-      // _alice.onHttpResponse(response);
-      // _responses.add(AppHttpResponse.fromResponse(response));
-      // _streamController.sink.add(_responses);
-      // Map<String, int> counts = getresponseCount();
-      // NotificationService.showSimpleNotification(
-      //   1,
-      //   title: 'Beeto App (Total: ${counts['total']} requests)',
-      //   body: 'Success  ${counts['success']} | Error ${counts['failure']}',
-      // );
-    }
+    if (kDebugMode) {}
   }
 
   static final _streamController = StreamController<List<AppHttpResponse>>();

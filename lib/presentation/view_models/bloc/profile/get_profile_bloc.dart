@@ -7,23 +7,27 @@ class GetProfileBloc extends Bloc<GetProfileEvent, GetProfileState> {
   GetProfileBloc() : super(GetProfileInitial()) {
     on<GetProfileDetailsEvent>(getProfile);
   }
+
   Future<void> getProfile(
     GetProfileDetailsEvent event,
     Emitter<GetProfileState> emit,
   ) async {
     emit(GetProfileLoading());
+
     try {
+      print("getrpofile bloc is calling");
+
       final result = await ApiService.getProfile();
-      print(result.statusCode);
 
-      if (result.statusCode == 200) {
-        print('success');
+      if (result.statusCode == 200 && result.isSuccess) {
         final user = UserModel.fromJson(result.result);
-
         emit(GetProfileSuccess(user: user));
+      } else if (result.statusCode == 401) {
+        print(result.statusCode);
+      } else {
+        emit(GetProfileError(error: result.result.toString()));
       }
     } catch (e) {
-      print(e);
       emit(GetProfileError(error: e.toString()));
     }
   }
