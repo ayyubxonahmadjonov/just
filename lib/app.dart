@@ -1,5 +1,4 @@
-import 'package:real_project/core/constants/app_imports.dart';
-import 'package:real_project/main.dart';
+import 'core/constants/app_imports.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
