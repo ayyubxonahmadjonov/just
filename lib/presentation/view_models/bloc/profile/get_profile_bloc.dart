@@ -23,7 +23,6 @@ class GetProfileBloc extends Bloc<GetProfileEvent, GetProfileState> {
         final user = UserModel.fromJson(result.result);
         emit(GetProfileSuccess(user: user));
       } else if (result.statusCode == 401) {
-        print(result.statusCode);
       } else {
         emit(GetProfileError(error: result.result.toString()));
       }

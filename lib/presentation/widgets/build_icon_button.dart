@@ -21,7 +21,7 @@ class _BuildIconButtonState extends State<BuildIconButton> {
         final RenderBox button = context.findRenderObject() as RenderBox;
         final Offset buttonPosition = button.localToGlobal(Offset.zero);
         final double buttonHeight = button.size.height;
-        final double dialogWidth = maxWidth * 0.95;
+        final double dialogWidth = maxWidth * 0.93;
         final double dialogHeight = maxHeight * 0.5;
         showPopover(
           context: context,
