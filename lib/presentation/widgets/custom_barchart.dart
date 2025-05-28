@@ -1,5 +1,4 @@
-import 'package:fl_chart/fl_chart.dart';
-import 'package:real_project/core/constants/app_imports.dart';
+import '../../core/constants/app_imports.dart';
 
 class BarChartWidget extends StatelessWidget {
   final List<String> months;
@@ -50,24 +49,42 @@ class BarChartWidget extends StatelessWidget {
                 getTooltipItem: (group, groupIndex, rod, rodIndex) {
                   String label = rodIndex == 0 ? 'PHP Invest' : 'Prime Capital';
                   double currentPrice = rod.toY;
-                  double previousPrice =
+
+                  // Avvalgi oy qiymati
+                  double? previousPrice =
                       groupIndex > 0
                           ? (rodIndex == 0
                               ? phpInvestPrices[groupIndex - 1]
                               : primeCapitalPrices[groupIndex - 1])
-                          : 0;
-                  String percentage =
-                      groupIndex > 0
+                          : null;
+
+                  // Agar avvalgi qiymat mavjud bo‘lsa foizni hisoblaymiz
+                  String? percentage =
+                      previousPrice != null
                           ? calculatePercentageChange(
                             currentPrice,
                             previousPrice,
                           )
-                          : 'N/A';
-                  Color textColor =
-                      percentage.startsWith('+') ? Colors.green : Colors.red;
-                  if (percentage == 'N/A') textColor = Colors.white;
+                          : null;
+
+                  // Tooltip matnini yig‘ish
+                  String tooltipText =
+                      '$label\n${currentPrice.toStringAsFixed(2)} \$';
+
+                  // Agar foiz mavjud bo‘lsa, uni ham qo‘shamiz
+                  if (percentage != null && percentage != 'N/A') {
+                    tooltipText += '\n$percentage';
+                  }
+
+                  // Rang tanlash
+                  Color textColor = Colors.white;
+                  if (percentage != null && percentage != 'N/A') {
+                    textColor =
+                        percentage.startsWith('+') ? Colors.green : Colors.red;
+                  }
+
                   return BarTooltipItem(
-                    '$label\n${currentPrice.toStringAsFixed(2)} \$\n$percentage',
+                    tooltipText,
                     TextStyle(color: textColor, fontWeight: FontWeight.bold),
                   );
                 },
@@ -101,7 +118,7 @@ class BarChartWidget extends StatelessWidget {
                       return Text(
                         year.toString(),
                         style: const TextStyle(
-                          color: Colors.black,
+                          color: AppColors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       );

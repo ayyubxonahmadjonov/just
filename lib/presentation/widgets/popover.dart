@@ -8,7 +8,7 @@ class CustomPopover {
     required WidgetBuilder builder,
     required GlobalKey targetKey,
   }) {
-    hide(); // oldingi popoverni yopish
+    hide();
 
     final RenderBox renderBox =
         targetKey.currentContext!.findRenderObject() as RenderBox;
@@ -19,7 +19,6 @@ class CustomPopover {
       builder: (context) {
         return Stack(
           children: [
-            // Tashqariga bosilganda yopish uchun GestureDetector
             Positioned.fill(
               child: GestureDetector(
                 onTap: () => hide(),
@@ -28,7 +27,6 @@ class CustomPopover {
               ),
             ),
 
-            // Arrow + Popover Box
             Positioned(
               left: position.dx + size.width / 2 - 10,
               top: position.dy + size.height,

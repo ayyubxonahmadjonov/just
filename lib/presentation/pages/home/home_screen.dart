@@ -1,7 +1,3 @@
-import 'package:real_project/data/datasources/local/hive_helper/hive_names.dart';
-import 'package:real_project/presentation/widgets/custom_diagra.dart';
-import 'package:real_project/presentation/widgets/line_chart.dart';
-
 import '../../../core/constants/app_imports.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,8 +10,11 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    for (int i = 1; i <= 4; i++) {
-      final key = "2025-${i.toString().padLeft(2, '0')}";
+    final currentYear = DateTime.now().year;
+    final currentMonth = DateTime.now().month;
+
+    for (int m = 1; m <= currentMonth; m++) {
+      final key = "2025-${m.toString().padLeft(2, '0')}";
 
       if (!HiveBoxes.monthly_capitals.containsKey(key)) {
         HiveBoxes.monthly_capitals.put(key, 0.0);
@@ -25,22 +24,20 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
-    // Boshqa ishlar
     BlocProvider.of<GetProfileBloc>(context).add(GetProfileDetailsEvent());
   }
 
   List<double> invests = [];
   List<double> capitals = [];
-
   @override
   int price1 = 0;
   int price = 0;
-  String formattedDate =
-      "${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}";
+  // String formattedDate =
+  //     "${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}";
 
   List<String> allMonths = [
-    "Jan",
-    "Feb",
+    "Yan",
+    "Fev",
     "Mar",
     "Apr",
     "May",
@@ -48,26 +45,26 @@ class _HomePageState extends State<HomePage> {
     "Iyul",
     "Aug",
     "Sen",
-    "Oct",
+    "Okt",
     "Noy",
-    "Dec",
+    "Dek",
   ];
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          HiveBoxes.monthly_capitals.clear();
+          HiveBoxes.monthly_invests.clear();
+          setState(() {});
+        },
+        child: Icon(Icons.add),
+      ),
       backgroundColor: Colors.white,
       body: BlocConsumer<GetProfileBloc, GetProfileState>(
         listener: (context, state) {},
         builder: (context, state) {
           if (state is GetProfileSuccess) {
-            double invest = double.parse(
-              state.user.phpInvestBalance.toString(),
-            );
-            double capital = double.parse(state.user.phpReitBalance.toString());
-
-            HiveBoxes.monthly_invests.put(formattedDate, invest);
-            HiveBoxes.monthly_capitals.put(formattedDate, capital);
-
             invests = HiveBoxes.monthly_invests.values.toList();
             capitals = HiveBoxes.monthly_capitals.values.toList();
 
@@ -93,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             "Salom ${state.user.firstName}",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColors.white2,
                               fontSize: 18.sp,
                             ),
                           ),
@@ -106,12 +103,15 @@ class _HomePageState extends State<HomePage> {
                       SizedBox(height: 20.h),
                       Text(
                         "Jami sarmoya",
-                        style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                        style: TextStyle(
+                          color: AppColors.white2,
+                          fontSize: 16.sp,
+                        ),
                       ),
                       Text(
                         state.user.totalBalance.toString(),
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white2,
                           fontSize: 36.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
 
                       margin: EdgeInsets.only(top: 40.h),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.white2,
                         borderRadius: BorderRadius.circular(30.r),
                         boxShadow: [
                           BoxShadow(

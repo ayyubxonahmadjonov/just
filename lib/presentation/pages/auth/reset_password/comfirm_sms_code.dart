@@ -1,5 +1,4 @@
-import 'package:real_project/core/constants/app_imports.dart';
-import 'package:real_project/presentation/widgets/custom_awesomedialog.dart';
+import '../../../../core/constants/app_imports.dart';
 
 class ConfirmSmsCode extends StatefulWidget {
   const ConfirmSmsCode({super.key});
@@ -34,7 +33,7 @@ class _ConfirmSmsCodeState extends State<ConfirmSmsCode> {
                 margin: EdgeInsets.symmetric(horizontal: 15.w),
                 padding: EdgeInsets.all(24.r),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white2,
                   borderRadius: BorderRadius.circular(30.r),
                 ),
                 child: Form(

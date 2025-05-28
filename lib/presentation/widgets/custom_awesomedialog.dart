@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:real_project/presentation/pages/auth/login.dart';
+import '../../core/constants/app_imports.dart';
 
 class CustomAwesomeDialog {
   static void showPasswordResetSuccess({required BuildContext context}) {

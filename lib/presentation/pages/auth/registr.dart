@@ -35,7 +35,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 margin: EdgeInsets.symmetric(horizontal: 15.w),
                 padding: EdgeInsets.all(20.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white2,
                   borderRadius: BorderRadius.circular(40.r),
                 ),
                 child: Form(

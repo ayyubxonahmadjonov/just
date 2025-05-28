@@ -32,3 +32,10 @@ export 'package:real_project/core/constants/app_imports.dart';
 export 'package:real_project/data/datasources/network/api_service.dart';
 export 'package:real_project/data/models/user_model.dart';
 export 'package:real_project/presentation/pages/auth/reset_password/comfirm_sms_code.dart';
+export 'package:real_project/data/datasources/local/hive_helper/hive_names.dart';
+export 'package:real_project/presentation/widgets/custom_barchart.dart';
+export 'package:fl_chart/fl_chart.dart';
+export 'package:awesome_dialog/awesome_dialog.dart';
+export 'package:real_project/main.dart';
+
+export 'package:real_project/presentation/widgets/custom_awesomedialog.dart';
