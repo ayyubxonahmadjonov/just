@@ -1,7 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:real_project/data/datasources/network/http_inspector.dart';
-import 'package:real_project/data/models/http_result.dart';
-import 'package:real_project/main.dart';
+
 import '../../../core/constants/app_imports.dart';
 
 class ApiService {
@@ -68,7 +66,6 @@ class ApiService {
       var response = await http
           .post(url, body: {"refresh": refreshToken})
           .timeout(const Duration(seconds: 30));
-
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
         final newAccess = decoded["access"];

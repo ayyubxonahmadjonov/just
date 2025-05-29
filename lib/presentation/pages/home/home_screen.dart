@@ -1,6 +1,8 @@
 import '../../../core/constants/app_imports.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -15,7 +17,6 @@ class _HomePageState extends State<HomePage> {
 
     for (int m = 1; m <= currentMonth; m++) {
       final key = "2025-${m.toString().padLeft(2, '0')}";
-
       if (!HiveBoxes.monthly_capitals.containsKey(key)) {
         HiveBoxes.monthly_capitals.put(key, 0.0);
       }
@@ -32,8 +33,6 @@ class _HomePageState extends State<HomePage> {
   @override
   int price1 = 0;
   int price = 0;
-  // String formattedDate =
-  //     "${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}";
 
   List<String> allMonths = [
     "Yan",
@@ -52,14 +51,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          HiveBoxes.monthly_capitals.clear();
-          HiveBoxes.monthly_invests.clear();
-          setState(() {});
-        },
-        child: Icon(Icons.add),
-      ),
       backgroundColor: Colors.white,
       body: BlocConsumer<GetProfileBloc, GetProfileState>(
         listener: (context, state) {},
@@ -67,7 +58,6 @@ class _HomePageState extends State<HomePage> {
           if (state is GetProfileSuccess) {
             invests = HiveBoxes.monthly_invests.values.toList();
             capitals = HiveBoxes.monthly_capitals.values.toList();
-
             return Column(
               children: [
                 Container(

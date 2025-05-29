@@ -1,14 +1,9 @@
-import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
+import '../../../core/constants/app_imports.dart';
 import 'http_response.dart';
-// ignore: depend_on_referenced_packages
-// import 'package:alice/alice.dart';
 
 class HttpInspector {
   const HttpInspector._();
-
   static onResponse(http.Response response) {
     if (kDebugMode) {}
   }
@@ -29,7 +24,6 @@ class HttpInspector {
         failure++;
       }
     }
-
     return {'total': success + failure, 'success': success, 'failure': failure};
   }
 }

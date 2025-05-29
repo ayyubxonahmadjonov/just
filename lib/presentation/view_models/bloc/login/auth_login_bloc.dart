@@ -13,7 +13,8 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
     emit(AuthLoginLoading());
     try {
       final result = await ApiService.login(event.email, event.password);
-
+      print(result.result.toString());
+      print(result.statusCode);
       if (result.statusCode == 200 || result.statusCode == 201) {
         final access = result.result["token"]["access"];
         final refresh = result.result["token"]["refresh"];
@@ -23,6 +24,8 @@ class AuthLoginBloc extends Bloc<AuthLoginEvent, AuthLoginState> {
 
         emit(AuthLoginSucces());
       } else {
+        print('elseda');
+
         emit(AuthLoginError(error: result.result.toString()));
       }
     } catch (e) {
