@@ -45,15 +45,18 @@ class _BuildIconButtonState extends State<BuildIconButton> {
     return Column(
       children: [
         Container(
-          width: 64,
-          height: 64,
+          width: 60.w,
+          height: 60.h,
           decoration: BoxDecoration(
             color: AppColors.primaryColor,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: ImageIcon(AssetImage(icon), color: Colors.white, size: 28),
+          child: Padding(
+            padding: EdgeInsets.all(13.0.w),
+            child: SvgPicture.asset("$icon", width: 30, height: 30),
+          ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(label),
       ],
     );
