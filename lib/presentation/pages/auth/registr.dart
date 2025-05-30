@@ -1,3 +1,5 @@
+import 'package:real_project/presentation/widgets/custom_offerdata.dart';
+
 import '../../../core/constants/app_imports.dart';
 
 class RegistrationForm extends StatefulWidget {
@@ -13,6 +15,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final rePasswordController = TextEditingController();
+  bool isOfferAccepted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +111,51 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                     ? "Parollar mos emas"
                                     : null,
                       ),
-                      SizedBox(height: 50.h),
+                      SizedBox(height: 15.h),
+
+                      Row(
+                        children: [
+                          Checkbox(
+                            checkColor: Colors.white,
+                            fillColor: MaterialStateProperty.all(
+                              AppColors.primaryColor,
+                            ),
+                            value: isOfferAccepted,
+                            onChanged: (value) {
+                              setState(() {
+                                isOfferAccepted = value!;
+                              });
+                            },
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder:
+                                    (_) => OfferDialog(
+                                      onAccepted: () {
+                                        setState(() {
+                                          isOfferAccepted = true;
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                              );
+                            },
+                            child: Text(
+                              "Ommaviy oferta shartlari",
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue,
+                                fontSize: 16.sp,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: 20.h),
                       BlocConsumer<AuthRegistrBloc, AuthRegistrState>(
                         listener: (context, state) {
                           if (state is AuthRegistrSucces) {
@@ -135,20 +182,36 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                 state is AuthRegistrLoading
                                     ? null
                                     : () {
-                                      if (_formKey.currentState!.validate()) {
-                                        BlocProvider.of<AuthRegistrBloc>(
+                                      if (!_formKey.currentState!.validate())
+                                        return;
+
+                                      if (!isOfferAccepted) {
+                                        ScaffoldMessenger.of(
                                           context,
-                                        ).add(
-                                          RegistrEvent(
-                                            name: nameController.text.trim(),
-                                            email: emailController.text.trim(),
-                                            password: passwordController.text,
-                                            rePassword:
-                                                rePasswordController.text,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              "Iltimos, ommaviy oferta shartlariga rozilik bildiring.",
+                                            ),
+                                            backgroundColor: Colors.red,
+                                            behavior: SnackBarBehavior.floating,
                                           ),
                                         );
+                                        return;
                                       }
+
+                                      BlocProvider.of<AuthRegistrBloc>(
+                                        context,
+                                      ).add(
+                                        RegistrEvent(
+                                          name: nameController.text.trim(),
+                                          email: emailController.text.trim(),
+                                          password: passwordController.text,
+                                          rePassword: rePasswordController.text,
+                                        ),
+                                      );
                                     },
+
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               shape: RoundedRectangleBorder(

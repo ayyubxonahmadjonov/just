@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     final currentMonth = DateTime.now().month;
 
     for (int m = 1; m <= currentMonth; m++) {
-      final key = "2025-${m.toString().padLeft(2, '0')}";
+      final key = "${currentYear}-${m.toString().padLeft(2, '0')}";
       if (!HiveBoxes.monthly_capitals.containsKey(key)) {
         HiveBoxes.monthly_capitals.put(key, 0.0);
       }
@@ -178,8 +178,20 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      BuildIconButton(icon: "invest.svg", label: "Invest"),
-                      BuildIconButton(icon: "contact.svg", label: "Aloqa"),
+                      BuildIconButton(
+                        icon: "invest.svg",
+                        label: "Invest",
+                        cardNumber: "4085 6530 7654 7021",
+                        name: "Ilyosbek Ilkhomjon ugli",
+                      ),
+                      BuildIconButton(
+                        icon: "contact.svg",
+                        label: "Aloqa",
+                        cardNumber: "+998880090799",
+                        name: "@MOHIRA_ADMINSTRATOR",
+                        iconPath1: "assets/icons/call.svg",
+                        iconPath2: "assets/icons/telegram.svg",
+                      ),
                     ],
                   ),
                   Padding(

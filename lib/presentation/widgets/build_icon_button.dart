@@ -3,8 +3,20 @@ import '../../core/constants/app_imports.dart';
 class BuildIconButton extends StatefulWidget {
   final String icon;
   final String label;
+  final String cardNumber;
+  final String name;
+  final String? iconPath1;
+  final String? iconPath2;
 
-  const BuildIconButton({super.key, required this.icon, required this.label});
+  const BuildIconButton({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.cardNumber,
+    required this.name,
+    this.iconPath1,
+    this.iconPath2,
+  });
   @override
   State<BuildIconButton> createState() => _BuildIconButtonState();
 }
@@ -25,7 +37,13 @@ class _BuildIconButtonState extends State<BuildIconButton> {
         final double dialogHeight = maxHeight * 0.5;
         showPopover(
           context: context,
-          bodyBuilder: (context) => MenuItem(),
+          bodyBuilder:
+              (context) => MenuItem(
+                cardNumber: widget.cardNumber,
+                name: widget.name,
+                iconPath1: widget.iconPath1,
+                iconPath2: widget.iconPath2,
+              ),
 
           backgroundColor: AppColors.primaryColor.withOpacity(0.5),
           barrierDismissible: true,

@@ -1,12 +1,12 @@
 import '../../core/constants/app_imports.dart';
 
-class MenuItem extends StatefulWidget {
+class ContactUsPage extends StatefulWidget {
   final String cardNumber;
   final String name;
   final String? iconPath1;
   final String? iconPath2;
 
-  const MenuItem({
+  const ContactUsPage({
     super.key,
     required this.cardNumber,
     required this.name,
@@ -15,10 +15,10 @@ class MenuItem extends StatefulWidget {
   });
 
   @override
-  State<MenuItem> createState() => _MenuItemState();
+  State<ContactUsPage> createState() => _ContactUsPageState();
 }
 
-class _MenuItemState extends State<MenuItem> {
+class _ContactUsPageState extends State<ContactUsPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
