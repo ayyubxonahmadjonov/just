@@ -7,8 +7,12 @@ class BuildIconButton extends StatefulWidget {
   final String name;
   final String? iconPath1;
   final String? iconPath2;
+  final String? phoneNumber;
+  final String? username;
+  final Widget widget;
 
   const BuildIconButton({
+    required this.widget,
     super.key,
     required this.icon,
     required this.label,
@@ -16,6 +20,8 @@ class BuildIconButton extends StatefulWidget {
     required this.name,
     this.iconPath1,
     this.iconPath2,
+    this.phoneNumber,
+    this.username,
   });
   @override
   State<BuildIconButton> createState() => _BuildIconButtonState();
@@ -39,6 +45,9 @@ class _BuildIconButtonState extends State<BuildIconButton> {
           context: context,
           bodyBuilder:
               (context) => MenuItem(
+                widget: widget.widget,
+                phoneNumber: widget.phoneNumber,
+                username: widget.username,
                 cardNumber: widget.cardNumber,
                 name: widget.name,
                 iconPath1: widget.iconPath1,

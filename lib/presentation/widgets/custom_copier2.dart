@@ -2,7 +2,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/constants/app_imports.dart';
 
-class CopyCardNumberWidget extends StatefulWidget {
+class CopyCardNumber2Widget extends StatefulWidget {
   final String cardNumber;
   final String name;
   final String? iconPath1;
@@ -10,7 +10,7 @@ class CopyCardNumberWidget extends StatefulWidget {
   final String? phoneNumber;
   final String? username;
 
-  CopyCardNumberWidget({
+  CopyCardNumber2Widget({
     this.username,
     this.phoneNumber,
     required this.cardNumber,
@@ -20,10 +20,10 @@ class CopyCardNumberWidget extends StatefulWidget {
   });
 
   @override
-  State<CopyCardNumberWidget> createState() => _CopyCardNumberWidgetState();
+  State<CopyCardNumber2Widget> createState() => _CopyCardNumber2WidgetState();
 }
 
-class _CopyCardNumberWidgetState extends State<CopyCardNumberWidget> {
+class _CopyCardNumber2WidgetState extends State<CopyCardNumber2Widget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,15 +49,15 @@ class _CopyCardNumberWidgetState extends State<CopyCardNumberWidget> {
               Expanded(
                 child: InkWell(
                   onTap: () async {
-                    await launchUrl(
-                      Uri.parse("tel:+998880090799"),
-                      mode: LaunchMode.externalApplication,
+                    Clipboard.setData(ClipboardData(text: widget.cardNumber));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Card number copied!")),
                     );
                   },
                   child: Text(
                     widget.cardNumber,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       letterSpacing: 1.5,
                       color: AppColors.white2,
                       fontWeight: FontWeight.w600,
@@ -116,15 +116,15 @@ class _CopyCardNumberWidgetState extends State<CopyCardNumberWidget> {
               Expanded(
                 child: InkWell(
                   onTap: () {
-                    launchUrl(
-                      Uri.parse("https://t.me/MOHIRA_ADMINSTRATOR"),
-                      mode: LaunchMode.externalApplication,
+                    Clipboard.setData(ClipboardData(text: widget.name));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Name copied!")),
                     );
                   },
                   child: Text(
                     widget.name,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18.sp,
                       letterSpacing: 1.5,
                       color: AppColors.white2,
                       fontWeight: FontWeight.w600,

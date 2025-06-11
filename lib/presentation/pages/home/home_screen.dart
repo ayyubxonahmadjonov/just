@@ -1,3 +1,5 @@
+import 'package:real_project/presentation/widgets/custom_copier2.dart';
+
 import '../../../core/constants/app_imports.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             invests = HiveBoxes.monthly_invests.values.toList();
             capitals = HiveBoxes.monthly_capitals.values.toList();
             return RefreshIndicator(
-              displacement: 15,
+              displacement: 25,
               onRefresh: () async {
                 BlocProvider.of<GetProfileBloc>(
                   context,
@@ -68,6 +70,8 @@ class _HomePageState extends State<HomePage> {
                 await Future.delayed(Duration(seconds: 2));
               },
               child: ListView(
+                shrinkWrap: true,
+
                 physics: AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
                 children: [
@@ -179,12 +183,24 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       BuildIconButton(
+                        widget: CopyCardNumber2Widget(
+                          cardNumber: "4998930008164513",
+                          name: "Ilyosbek Ikromov",
+                        ),
                         icon: "invest.svg",
                         label: "Invest",
-                        cardNumber: "4085 6530 7654 7021",
-                        name: "Ilyosbek Ilkhomjon ugli",
+                        cardNumber: "4998930008164513",
+                        name: "Ilyosbek Ikromov",
                       ),
                       BuildIconButton(
+                        widget: CopyCardNumberWidget(
+                          iconPath1: "assets/icons/call.svg",
+                          iconPath2: "assets/icons/telegram.svg",
+                          cardNumber: "+998880090799",
+                          name: '@MOHIRA_ADMINSTRATOR',
+                        ),
+                        phoneNumber: "+998880090799",
+                        username: "@MOHIRA_ADMINSTRATOR",
                         icon: "contact.svg",
                         label: "Aloqa",
                         cardNumber: "+998880090799",

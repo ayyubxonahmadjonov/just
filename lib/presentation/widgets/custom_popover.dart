@@ -5,13 +5,19 @@ class MenuItem extends StatefulWidget {
   final String name;
   final String? iconPath1;
   final String? iconPath2;
+  final String? phoneNumber;
+  final String? username;
+  final Widget widget;
 
   const MenuItem({
+    this.phoneNumber,
+    this.username,
     super.key,
     required this.cardNumber,
     required this.name,
     this.iconPath1,
     this.iconPath2,
+    required this.widget,
   });
 
   @override
@@ -23,16 +29,7 @@ class _MenuItemState extends State<MenuItem> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: CopyCardNumberWidget(
-            cardNumber: widget.cardNumber,
-            name: widget.name,
-            iconPath1: widget.iconPath1,
-            iconPath2: widget.iconPath2,
-          ),
-        ),
-      ],
+      children: [Center(child: widget.widget)],
     );
   }
 }
