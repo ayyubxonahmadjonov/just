@@ -1,5 +1,4 @@
 import 'package:real_project/core/constants/app_imports.dart';
-import 'package:real_project/presentation/widgets/custom_appbar.dart';
 
 class OtpPage extends StatefulWidget {
   final String phone;
@@ -87,7 +86,12 @@ class _OtpPageState extends State<OtpPage> {
 
             SizedBox(height: 60.h),
             CustomButton(
-              route: NewPassword(),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewPassword()),
+                );
+              },
               title: "Tasdiqlash",
               bacColor: AppColors.white1,
               textColor: AppColors.primaryColor,

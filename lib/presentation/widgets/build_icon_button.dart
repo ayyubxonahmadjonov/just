@@ -9,10 +9,22 @@ class BuildIconButton extends StatefulWidget {
   final String? iconPath2;
   final String? phoneNumber;
   final String? username;
-  final Widget widget;
+  final Color? color;
+  final Color? popColor;
+  final Color? iconColor;
+
+  final Widget? widget;
+  final double dialogWidth;
+  final double dialogHeight;
 
   const BuildIconButton({
-    required this.widget,
+    this.iconColor = AppColors.white2,
+    required this.dialogWidth,
+    required this.dialogHeight,
+    this.color = AppColors.primaryColor,
+    this.popColor = AppColors.primaryColor,
+
+    this.widget,
     super.key,
     required this.icon,
     required this.label,
@@ -23,6 +35,7 @@ class BuildIconButton extends StatefulWidget {
     this.phoneNumber,
     this.username,
   });
+
   @override
   State<BuildIconButton> createState() => _BuildIconButtonState();
 }
@@ -38,29 +51,19 @@ class _BuildIconButtonState extends State<BuildIconButton> {
       onTap: () {
         final RenderBox button = context.findRenderObject() as RenderBox;
         final Offset buttonPosition = button.localToGlobal(Offset.zero);
-        final double buttonHeight = button.size.height;
-        final double dialogWidth = maxWidth * 0.93;
-        final double dialogHeight = maxHeight * 0.5;
+
         showPopover(
           context: context,
-          bodyBuilder:
-              (context) => MenuItem(
-                widget: widget.widget,
-                phoneNumber: widget.phoneNumber,
-                username: widget.username,
-                cardNumber: widget.cardNumber,
-                name: widget.name,
-                iconPath1: widget.iconPath1,
-                iconPath2: widget.iconPath2,
-              ),
+          bodyBuilder: (context) => widget.widget!,
 
-          backgroundColor: AppColors.primaryColor.withOpacity(0.5),
+          backgroundColor: widget.popColor!,
           barrierDismissible: true,
           radius: 30,
-          width: dialogWidth,
-          height: dialogHeight,
+          width: widget.dialogWidth,
+          height: widget.dialogHeight,
           direction: PopoverDirection.bottom,
-          contentDxOffset: (maxWidth - dialogWidth) / 0.4 - buttonPosition.dx,
+          contentDxOffset:
+              (maxWidth - widget.dialogWidth) / 0.4 - buttonPosition.dx,
           contentDyOffset: 10,
         );
       },
@@ -75,16 +78,28 @@ class _BuildIconButtonState extends State<BuildIconButton> {
           width: 60.w,
           height: 60.h,
           decoration: BoxDecoration(
-            color: AppColors.primaryColor,
+            color: widget.color,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(
             padding: EdgeInsets.all(13.0.w),
-            child: SvgPicture.asset("$icon", width: 30, height: 30),
+            child: SvgPicture.asset(
+              "$icon",
+              width: 30,
+              height: 30,
+              color: widget.iconColor,
+            ),
           ),
         ),
         SizedBox(height: 8.h),
-        Text(label),
+        Text(
+          label,
+          style: TextStyle(
+            color: widget.color,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }

@@ -27,6 +27,7 @@ class _CopyCardNumberWidgetState extends State<CopyCardNumberWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         /// CARD NUMBER QATORI
         Padding(

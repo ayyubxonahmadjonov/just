@@ -23,7 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
             Padding(
               padding: EdgeInsets.only(top: 40.h),
               child: CustomButton(
-                route: RegistrationForm(),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegistrationForm()),
+                  );
+                },
                 width: 0.8.sw,
                 height: 55.h,
                 title: "Ro'yhatdan O'tish",
@@ -37,7 +42,12 @@ class _SplashScreenState extends State<SplashScreen> {
             SizedBox(height: 15.h),
             CustomButton(
               width: 0.8.sw,
-              route: LoginPage(),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
               height: 55.h,
               title: "Hisobga kirish",
               bacColor: AppColors.white1,

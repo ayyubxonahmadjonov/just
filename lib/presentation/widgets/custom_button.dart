@@ -9,7 +9,7 @@ class CustomButton extends StatefulWidget {
   final double borderRadius;
   final double width;
   final double height;
-  final Widget? route;
+  final VoidCallback onPressed;
 
   const CustomButton({
     super.key,
@@ -21,7 +21,7 @@ class CustomButton extends StatefulWidget {
     required this.borderRadius,
     required this.width,
     required this.height,
-    this.route,
+    required this.onPressed,
   });
 
   @override
@@ -32,12 +32,7 @@ class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => widget.route!),
-        );
-      },
+      onPressed: widget.onPressed,
 
       style: ElevatedButton.styleFrom(
         minimumSize: Size(widget.width, widget.height),

@@ -1,6 +1,4 @@
 import 'package:real_project/core/constants/app_imports.dart';
-import 'package:real_project/presentation/widgets/custom_appbar.dart';
-import 'package:real_project/presentation/widgets/navigate_before.dart';
 
 class LoginPage extends StatefulWidget {
   @override

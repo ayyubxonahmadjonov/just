@@ -58,6 +58,36 @@ class ApiService {
     return await _get("api/profile/");
   }
 
+  static Future<HttpResult> createIncome(
+    String amount,
+    String date,
+    int category,
+  ) async {
+    return await _post(
+      "api/income/",
+      body: {"category": category, "amount": amount, "date": date},
+    );
+  }
+
+  static Future<HttpResult> createExpense(
+    String amount,
+    String date,
+    int category,
+  ) async {
+    return await _post(
+      "api/expense/",
+      body: {"category": category, "amount": amount, "date": date},
+    );
+  }
+
+  static Future<HttpResult> getIncomeList() async {
+    return await _get("api/income/");
+  }
+
+  static Future<HttpResult> getExpenseList() async {
+    return await _get("api/expense/");
+  }
+
   static Future<bool> refreshAccessToken() async {
     String? refreshToken = await SharedPreferencesHelper().getString("refresh");
 
@@ -152,8 +182,6 @@ class ApiService {
           .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 401) {
-        print("kod 401 request ketdi");
-
         final isRefreshed = await refreshAccessToken();
         if (isRefreshed) {
           return await _get(path); // Qayta yuborish

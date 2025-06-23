@@ -1,8 +1,5 @@
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:real_project/core/constants/app_imports.dart';
-import 'package:real_project/presentation/pages/auth/reset_password/verify_sms_code.dart';
-import 'package:real_project/presentation/widgets/custom_appbar.dart';
 
+import 'package:real_project/core/constants/app_imports.dart';
 class ResetPasswordEmail extends StatefulWidget {
   const ResetPasswordEmail({super.key});
 

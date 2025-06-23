@@ -1,86 +1,47 @@
-import '../../core/constants/app_imports.dart';
+import 'package:flutter/material.dart';
+import 'package:real_project/core/constants/app_imports.dart';
 
-class CustomPopover {
-  static OverlayEntry? _overlayEntry;
+class CustomPopover extends StatefulWidget {
+  const CustomPopover({super.key});
 
-  static void show({
-    required BuildContext context,
-    required WidgetBuilder builder,
-    required GlobalKey targetKey,
-  }) {
-    hide();
+  @override
+  State<CustomPopover> createState() => _CustomPopoverState();
+}
 
-    final RenderBox renderBox =
-        targetKey.currentContext!.findRenderObject() as RenderBox;
-    final Size size = renderBox.size;
-    final Offset position = renderBox.localToGlobal(Offset.zero);
+class _CustomPopoverState extends State<CustomPopover> {
+  @override
+  Widget build(BuildContext context) {
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    double maxWidth = MediaQuery.of(context).size.width;
+    double maxHeight = MediaQuery.of(context).size.height;
+    return GestureDetector(
+      onTap: () {
+        final RenderBox button = context.findRenderObject() as RenderBox;
+        final Offset buttonPosition = button.localToGlobal(Offset.zero);
+        final double buttonHeight = button.size.height;
+        final double dialogWidth = maxWidth * 0.93;
+        final double dialogHeight = maxHeight * 0.5;
 
-    _overlayEntry = OverlayEntry(
-      builder: (context) {
-        return Stack(
-          children: [
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: () => hide(),
-                behavior: HitTestBehavior.translucent,
-                child: Container(),
+        showPopover(
+          context: context,
+          bodyBuilder:
+              (cmontext) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [Text("Tarix")],
               ),
-            ),
 
-            Positioned(
-              left: position.dx + size.width / 2 - 10,
-              top: position.dy + size.height,
-              child: Material(
-                color: Colors.transparent,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Arrow
-                    CustomPaint(
-                      painter: _ArrowPainter(),
-                      child: SizedBox(width: 20, height: 10),
-                    ),
-                    // Main popover content
-                    Container(
-                      width: 250,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: builder(context),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          backgroundColor: AppColors.primaryColor.withOpacity(0.5),
+          barrierDismissible: true,
+          radius: 30,
+          width: dialogWidth,
+          height: dialogHeight,
+          direction: PopoverDirection.bottom,
+          contentDxOffset: (maxWidth - dialogWidth) / 0.4 - buttonPosition.dx,
+          contentDyOffset: 10,
         );
       },
     );
-
-    Overlay.of(context).insert(_overlayEntry!);
   }
-
-  static void hide() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  }
-}
-
-class _ArrowPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Colors.blue.withOpacity(0.9);
-    final path =
-        Path()
-          ..moveTo(0, size.height)
-          ..lineTo(size.width / 2, 0)
-          ..lineTo(size.width, size.height)
-          ..close();
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

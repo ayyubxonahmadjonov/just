@@ -16,8 +16,6 @@ class GetProfileBloc extends Bloc<GetProfileEvent, GetProfileState> {
     String formattedDate =
         "${DateTime.now().year}-${DateTime.now().month.toString().padLeft(2, '0')}";
     try {
-      print("getrpofile bloc is calling");
-
       final result = await ApiService.getProfile();
 
       if (result.statusCode == 200 && result.isSuccess) {

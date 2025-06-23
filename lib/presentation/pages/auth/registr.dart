@@ -1,11 +1,6 @@
-import 'package:real_project/presentation/widgets/custom_offerdata.dart';
-import 'package:real_project/presentation/widgets/navigate_before.dart';
-
 import '../../../core/constants/app_imports.dart';
-
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({super.key});
-
   @override
   _RegistrationFormState createState() => _RegistrationFormState();
 }

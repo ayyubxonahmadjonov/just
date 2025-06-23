@@ -1,4 +1,9 @@
-import 'package:real_project/presentation/widgets/custom_copier2.dart';
+import 'package:real_project/presentation/pages/expense/expense_screen.dart';
+import 'package:real_project/presentation/pages/income/income_screen.dart';
+import 'package:real_project/presentation/view_models/bloc/expense/create_expense/create_expense_bloc.dart';
+import 'package:real_project/presentation/view_models/bloc/expense/get_expense/get_expense_bloc.dart';
+import 'package:real_project/presentation/view_models/bloc/create_income/create_income_bloc.dart';
+import 'package:real_project/presentation/view_models/bloc/get_income/get_income_list_bloc.dart';
 
 import '../../../core/constants/app_imports.dart';
 
@@ -10,12 +15,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final currentYear = DateTime.now().year;
+  final currentMonth = DateTime.now().month;
+  final currentDay = DateTime.now().day;
   @override
   void initState() {
     super.initState();
-
-    final currentYear = DateTime.now().year;
-    final currentMonth = DateTime.now().month;
 
     for (int m = 1; m <= currentMonth; m++) {
       final key = "${currentYear}-${m.toString().padLeft(2, '0')}";
@@ -53,6 +58,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final maxWidth = MediaQuery.of(context).size.width;
+    final maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocConsumer<GetProfileBloc, GetProfileState>(
@@ -183,16 +190,20 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       BuildIconButton(
+                        dialogWidth: maxWidth * 0.93,
+                        dialogHeight: maxHeight * 0.5,
+                        cardNumber: "4998930008164513",
+                        name: "Ilyosbek Ikromov",
                         widget: CopyCardNumber2Widget(
                           cardNumber: "4998930008164513",
                           name: "Ilyosbek Ikromov",
                         ),
                         icon: "invest.svg",
                         label: "Invest",
-                        cardNumber: "4998930008164513",
-                        name: "Ilyosbek Ikromov",
                       ),
                       BuildIconButton(
+                        dialogWidth: maxWidth * 0.93,
+                        dialogHeight: maxHeight * 0.5,
                         widget: CopyCardNumberWidget(
                           iconPath1: "assets/icons/call.svg",
                           iconPath2: "assets/icons/telegram.svg",
@@ -278,6 +289,44 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   SizedBox(height: 30.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildIncomeCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const IncomEHistoryPage();
+                              },
+                            ),
+                          );
+                        },
+                        color: AppColors.primaryColor,
+
+                        title: "Income",
+                        price: "5000",
+                        iconPath: "assets/images/income.svg",
+                      ),
+                      _buildIncomeCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const ExpenseScreen();
+                              },
+                            ),
+                          );
+                        },
+                        color: AppColors.red,
+                        title: "Expenses",
+                        price: "1200",
+                        iconPath: "assets/images/expenses.svg",
+                      ),
+                    ],
+                  ),
                 ],
               ),
             );
@@ -289,6 +338,65 @@ class _HomePageState extends State<HomePage> {
             return Text('data yoq');
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildIncomeCard({
+    required String title,
+    required String price,
+    required String iconPath,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 145.w,
+        height: 70.h,
+        padding: EdgeInsets.all(10),
+
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(25.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12.r),
+                color: AppColors.white2,
+              ),
+              child: SvgPicture.asset(iconPath, height: 35.h),
+            ),
+            SizedBox(width: 10.w),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: AppColors.white1,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  "\$$price",
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.white1,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

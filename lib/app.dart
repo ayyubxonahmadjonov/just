@@ -1,6 +1,8 @@
-import 'package:real_project/presentation/pages/auth/reset_password/verify_sms_code.dart';
-
+import 'package:real_project/presentation/view_models/bloc/expense/get_expense/get_expense_bloc.dart';
+import 'package:real_project/presentation/view_models/bloc/create_income/create_income_bloc.dart';
+import 'package:real_project/presentation/view_models/bloc/get_income/get_income_list_bloc.dart';
 import 'core/constants/app_imports.dart';
+import 'presentation/view_models/bloc/expense/create_expense/create_expense_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -31,6 +33,10 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => ResetPasswordBloc()),
         BlocProvider(create: (context) => ComfirmSmscodeBloc()),
         BlocProvider(create: (context) => GetProfileBloc()),
+        BlocProvider(create: (context) => GetIncomeListBloc()),
+        BlocProvider(create: (context) => CreateIncomeBloc()),
+        BlocProvider(create: (context) => GetExpenseBloc()),
+        BlocProvider(create: (context) => CreateExpenseBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
