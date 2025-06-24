@@ -1,8 +1,4 @@
-import 'package:real_project/presentation/view_models/bloc/expense/get_expense/get_expense_bloc.dart';
-import 'package:real_project/presentation/view_models/bloc/create_income/create_income_bloc.dart';
-import 'package:real_project/presentation/view_models/bloc/get_income/get_income_list_bloc.dart';
 import 'core/constants/app_imports.dart';
-import 'presentation/view_models/bloc/expense/create_expense/create_expense_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -46,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         ),
 
         debugShowCheckedModeBanner: false,
-        home: token == null ? SplashScreen() : HomePage(),
+        home: token == null ? SplashScreen() : SetPassword(),
       ),
     );
   }

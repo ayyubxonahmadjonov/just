@@ -1,15 +1,13 @@
-import 'package:real_project/core/constants/app_imports.dart';
-import 'package:real_project/presentation/pages/income/add_income.dart';
-import 'package:real_project/presentation/pages/income/income_history.dart';
+import '../../../core/constants/app_imports.dart';
 
-class IncomEHistoryPage extends StatefulWidget {
-  const IncomEHistoryPage({super.key});
+class IncomeScreen extends StatefulWidget {
+  const IncomeScreen({super.key});
 
   @override
-  State<IncomEHistoryPage> createState() => _IncomEHistoryPageState();
+  State<IncomeScreen> createState() => _IncomeScreenState();
 }
 
-class _IncomEHistoryPageState extends State<IncomEHistoryPage> {
+class _IncomeScreenState extends State<IncomeScreen> {
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
@@ -36,6 +34,7 @@ class _IncomEHistoryPageState extends State<IncomEHistoryPage> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
             children: [
               BuildIconButton(
                 iconColor: AppColors.primaryColor,
@@ -48,22 +47,18 @@ class _IncomEHistoryPageState extends State<IncomEHistoryPage> {
                 widget: IncomeHistoryScreen(),
                 icon: "income_history.svg",
                 label: "Tarix",
-                cardNumber: "4998930008164513",
-                name: "Ilyosbek Ikromov",
               ),
+
               BuildIconButton(
                 iconColor: AppColors.primaryColor,
                 dialogWidth: maxWidth * 0.93,
                 dialogHeight: maxHeight * 0.4,
                 popColor: AppColors.white2,
-
                 color: AppColors.white2,
 
-                widget: AddTransactionScreen(),
+                widget: AddIncomeScreen(),
                 icon: "add_income.svg",
                 label: "Qo'shish",
-                cardNumber: "4998930008164513",
-                name: "Ilyosbek Ikromov",
               ),
               BuildIconButton(
                 iconColor: AppColors.primaryColor,
@@ -76,8 +71,6 @@ class _IncomEHistoryPageState extends State<IncomEHistoryPage> {
                 widget: IncomeHistoryScreen(),
                 icon: "statistics.svg",
                 label: "Statistika",
-                cardNumber: "4998930008164513",
-                name: "Ilyosbek Ikromov",
               ),
             ],
           ),

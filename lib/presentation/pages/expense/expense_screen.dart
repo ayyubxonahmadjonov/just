@@ -47,8 +47,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 widget: ExpenseHistoryScreen(),
                 icon: "income_history.svg",
                 label: "Tarix",
-                cardNumber: "4998930008164513",
-                name: "Ilyosbek Ikromov",
               ),
               BuildIconButton(
                 iconColor: AppColors.red,
@@ -61,8 +59,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 widget: AddExpenseScreen(),
                 icon: "add_income.svg",
                 label: "Qo'shish",
-                cardNumber: "4998930008164513",
-                name: "Ilyosbek Ikromov",
               ),
               BuildIconButton(
                 iconColor: AppColors.red,
@@ -75,8 +71,6 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 widget: ExpenseHistoryScreen(),
                 icon: "statistics.svg",
                 label: "Statistika",
-                cardNumber: "4998930008164513",
-                name: "Ilyosbek Ikromov",
               ),
             ],
           ),

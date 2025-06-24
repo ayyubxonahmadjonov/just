@@ -1,4 +1,5 @@
 import '../../../core/constants/app_imports.dart';
+
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({super.key});
   @override
@@ -155,7 +156,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           if (state is AuthRegistrSucces) {
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (_) => HomePage()),
+                              MaterialPageRoute(builder: (_) => SetPassword()),
                               (route) => false,
                             );
                           } else if (state is AuthRegistrError) {

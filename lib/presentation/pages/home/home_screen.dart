@@ -1,10 +1,3 @@
-import 'package:real_project/presentation/pages/expense/expense_screen.dart';
-import 'package:real_project/presentation/pages/income/income_screen.dart';
-import 'package:real_project/presentation/view_models/bloc/expense/create_expense/create_expense_bloc.dart';
-import 'package:real_project/presentation/view_models/bloc/expense/get_expense/get_expense_bloc.dart';
-import 'package:real_project/presentation/view_models/bloc/create_income/create_income_bloc.dart';
-import 'package:real_project/presentation/view_models/bloc/get_income/get_income_list_bloc.dart';
-
 import '../../../core/constants/app_imports.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,7 +30,6 @@ class _HomePageState extends State<HomePage> {
 
   List<double> invests = [];
   List<double> capitals = [];
-  @override
   int price1 = 0;
   int price = 0;
 
@@ -170,6 +162,7 @@ class _HomePageState extends State<HomePage> {
                                     fontSize: 20.sp,
                                   ),
                                 ),
+
                                 Text(
                                   "Prime capital",
                                   style: TextStyle(
@@ -192,8 +185,7 @@ class _HomePageState extends State<HomePage> {
                       BuildIconButton(
                         dialogWidth: maxWidth * 0.93,
                         dialogHeight: maxHeight * 0.5,
-                        cardNumber: "4998930008164513",
-                        name: "Ilyosbek Ikromov",
+
                         widget: CopyCardNumber2Widget(
                           cardNumber: "4998930008164513",
                           name: "Ilyosbek Ikromov",
@@ -210,14 +202,9 @@ class _HomePageState extends State<HomePage> {
                           cardNumber: "+998880090799",
                           name: '@MOHIRA_ADMINSTRATOR',
                         ),
-                        phoneNumber: "+998880090799",
-                        username: "@MOHIRA_ADMINSTRATOR",
+
                         icon: "contact.svg",
                         label: "Aloqa",
-                        cardNumber: "+998880090799",
-                        name: "@MOHIRA_ADMINSTRATOR",
-                        iconPath1: "assets/icons/call.svg",
-                        iconPath2: "assets/icons/telegram.svg",
                       ),
                     ],
                   ),
@@ -293,49 +280,29 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildIncomeCard(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const IncomEHistoryPage();
-                              },
-                            ),
-                          );
-                        },
                         color: AppColors.primaryColor,
 
                         title: "Income",
                         price: "5000",
                         iconPath: "assets/images/income.svg",
+                        widget: const IncomeScreen(),
                       ),
                       _buildIncomeCard(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const ExpenseScreen();
-                              },
-                            ),
-                          );
-                        },
                         color: AppColors.red,
                         title: "Expenses",
                         price: "1200",
                         iconPath: "assets/images/expenses.svg",
+                        widget: const ExpenseScreen(),
                       ),
                     ],
                   ),
                 ],
               ),
             );
-          } else if (state is GetProfileLoading) {
-            return Center(child: CircularProgressIndicator());
           } else if (state is GetProfileError) {
             return Center(child: Text(state.error));
           } else {
-            return Text('data yoq');
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),
@@ -347,10 +314,20 @@ class _HomePageState extends State<HomePage> {
     required String price,
     required String iconPath,
     required Color color,
-    required VoidCallback onTap,
+
+    required Widget widget,
   }) {
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return widget;
+            },
+          ),
+        );
+      },
       child: Container(
         width: 145.w,
         height: 70.h,

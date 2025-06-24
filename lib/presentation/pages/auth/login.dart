@@ -44,10 +44,9 @@ class _LoginPageState extends State<LoginPage> {
                       _formKey.currentState!.validate();
                     } else if (state is AuthLoginSucces) {
                       loginErrorMessage = null;
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                        (route) => false,
+                        MaterialPageRoute(builder: (context) => SetPassword()),
                       );
                     }
                   },

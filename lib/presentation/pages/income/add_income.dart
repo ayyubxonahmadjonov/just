@@ -1,23 +1,19 @@
-import 'package:real_project/core/constants/app_imports.dart';
-import 'package:real_project/presentation/view_models/bloc/create_income/create_income_bloc.dart';
+import '../../../core/constants/app_imports.dart';
 
-class AddTransactionScreen extends StatefulWidget {
-  const AddTransactionScreen({super.key});
+class AddIncomeScreen extends StatefulWidget {
+  const AddIncomeScreen({super.key});
 
   @override
-  State<AddTransactionScreen> createState() => _AddTransactionScreenState();
+  State<AddIncomeScreen> createState() => _AddIncomeScreenState();
 }
 
-class _AddTransactionScreenState extends State<AddTransactionScreen> {
+class _AddIncomeScreenState extends State<AddIncomeScreen> {
   String? selectedCategory;
   String? selectedDay;
   String? selectedMonth;
   String? selectedYear;
 
   TextEditingController amountController = TextEditingController();
-  String day = "";
-  String month = "";
-  String year = "";
 
   @override
   Widget build(BuildContext context) {
@@ -41,34 +37,25 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                 children: [
                   Flexible(
                     flex: 7,
-                    child: DropdownButtonFormField<String>(
-                      value: selectedCategory,
-
-                      decoration: const InputDecoration(
-                        hintText: 'Kategoriyani tanlang',
-                        border: UnderlineInputBorder(),
+                    child: AbsorbPointer(
+                      child: TextField(
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Kategoriyani tanlang',
+                          border: UnderlineInputBorder(),
+                        ),
                       ),
-                      items:
-                          ['Ovqat', 'Transport', 'O‘yin'].map((category) {
-                            return DropdownMenuItem(
-                              value: category,
-                              child: Text(category),
-                            );
-                          }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedCategory = value;
-                        });
-                      },
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 30.w),
                   Flexible(
-                    flex: 3,
+                    flex: 4,
                     child: TextField(
+                      textAlign: TextAlign.center,
                       controller: amountController,
                       decoration: const InputDecoration(
                         hintText: '0 \$',
+
                         border: UnderlineInputBorder(),
                       ),
                       keyboardType: TextInputType.numberWithOptions(
@@ -88,77 +75,92 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
               /// Sana tanlash
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  DropdownButton<String>(
-                    value: selectedDay,
-                    hint: const Text("Kun"),
-                    items:
-                        List.generate(31, (index) => "${index + 1}")
-                            .map(
-                              (day) => DropdownMenuItem(
-                                value: day,
-                                child: Text(day),
-                              ),
-                            )
-                            .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedDay = value;
-                      });
-                    },
+                  SizedBox(
+                    width: 70.w,
+                    height: 40.h,
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: selectedDay,
+                      hint: const Text("Kun"),
+                      items:
+                          List.generate(31, (index) => "${index + 1}")
+                              .map(
+                                (day) => DropdownMenuItem(
+                                  value: day,
+                                  child: Text(day),
+                                ),
+                              )
+                              .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedDay = value;
+                        });
+                      },
+                    ),
                   ),
-
-                  DropdownButton<String>(
-                    value: selectedMonth,
-                    hint: const Text("Oy"),
-                    items:
-                        [
-                              'Yan',
-                              'Fev',
-                              'Mar',
-                              'Apr',
-                              'May',
-                              'Iyun',
-                              'Iyul',
-                              'Avg',
-                              'Sen',
-                              'Okt',
-                              'Noy',
-                              'Dek',
-                            ]
-                            .map(
-                              (month) => DropdownMenuItem(
-                                value: month,
-                                child: Text(month),
-                              ),
-                            )
-                            .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedMonth = value;
-                      });
-                    },
+                  SizedBox(width: 30.w),
+                  SizedBox(
+                    width: 70.w,
+                    height: 40.h,
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: selectedMonth,
+                      hint: const Text("Oy"),
+                      items:
+                          [
+                                'Yan',
+                                'Fev',
+                                'Mar',
+                                'Apr',
+                                'May',
+                                'Iyun',
+                                'Iyul',
+                                'Avg',
+                                'Sen',
+                                'Okt',
+                                'Noy',
+                                'Dek',
+                              ]
+                              .map(
+                                (month) => DropdownMenuItem(
+                                  value: month,
+                                  child: Text(month),
+                                ),
+                              )
+                              .toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedMonth = value;
+                        });
+                      },
+                    ),
                   ),
+                  SizedBox(width: 30.w),
 
-                  DropdownButton<String>(
-                    value: selectedYear,
-                    hint: const Text("Yil"),
-                    items:
-                        List.generate(
-                          4,
-                          (index) => "${DateTime.now().year - index}",
-                        ).map((year) {
-                          return DropdownMenuItem(
-                            value: year,
-                            child: Text(year),
-                          );
-                        }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedYear = value;
-                      });
-                    },
+                  SizedBox(
+                    width: 70.w,
+                    height: 40.h,
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: selectedYear,
+                      hint: const Text("Yil"),
+                      items:
+                          List.generate(
+                            4,
+                            (index) => "${DateTime.now().year - index}",
+                          ).map((year) {
+                            return DropdownMenuItem(
+                              value: year,
+                              child: Text(year),
+                            );
+                          }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedYear = value;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -171,7 +173,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                       selectedDay != null &&
                               selectedMonth != null &&
                               selectedYear != null
-                          ? '${selectedYear!}-${_getMonthNumber(selectedMonth!)}-${selectedDay!.padLeft(2, '0')}'
+                          ? '${selectedYear!}-${GetMonthNumber().getMonthNumber(selectedMonth!)}-${selectedDay!.padLeft(2, '0')}'
                           : '';
 
                   BlocProvider.of<CreateIncomeBloc>(context).add(
@@ -199,23 +201,5 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
         ),
       ),
     );
-  }
-
-  String _getMonthNumber(String monthName) {
-    const months = {
-      'Yan': '01',
-      'Fev': '02',
-      'Mar': '03',
-      'Apr': '04',
-      'May': '05',
-      'Iyun': '06',
-      'Iyul': '07',
-      'Avg': '08',
-      'Sen': '09',
-      'Okt': '10',
-      'Noy': '11',
-      'Dek': '12',
-    };
-    return months[monthName] ?? '00';
   }
 }
