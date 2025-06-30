@@ -20,10 +20,12 @@ class CreateIncomeBloc extends Bloc<CreateIncomeEvent, CreateIncomeState> {
         event.date,
         event.category,
       );
+
+      print(result.result);
       if (result.isSuccess) {
         emit(CreateIncomeSuccess());
       } else {
-        emit(CreateIncomeError(message: result.result.toString()));
+        emit(CreateIncomeError(message: result.result["message"].toString()));
       }
     } catch (e) {}
   }

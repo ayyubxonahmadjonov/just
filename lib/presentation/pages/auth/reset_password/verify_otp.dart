@@ -1,107 +1,61 @@
-import 'package:real_project/core/constants/app_imports.dart'; // O'zgaruvchilar, ranglar, widgetlar
+import 'package:real_project/core/constants/app_imports.dart';
 
-class SetPassword extends StatefulWidget {
+class OtpPage extends StatefulWidget {
+  final String phone;
+  final String otpType;
+  OtpPage({required this.phone, required this.otpType});
+
   @override
-  _SetPasswordState createState() => _SetPasswordState();
+  _OtpPageState createState() => _OtpPageState();
 }
 
-class _SetPasswordState extends State<SetPassword> {
-  List<String> code = ["", "", "", ""];
-  String appPassword = "";
-
-  @override
-  void initState() {
-    super.initState();
-    _loadAppPassword();
-  }
-
-  Future<void> _loadAppPassword() async {
-    final password = await SharedPreferencesHelper().getString("app_password");
-    setState(() {
-      appPassword = password ?? "";
-    });
-  }
+class _OtpPageState extends State<OtpPage> {
+  List<String> code = ["", "", "", "", "", ""];
 
   void _onKeyTap(String value) {
     setState(() {
-      int emptyIndex = code.indexWhere((digit) => digit.isEmpty);
-      if (emptyIndex != -1 && value.isNotEmpty) {
-        code[emptyIndex] = value;
+      for (int i = 0; i < code.length; i++) {
+        if (code[i].isEmpty) {
+          code[i] = value;
+          break;
+        }
       }
     });
   }
 
   void _onBackspace() {
     setState(() {
-      int lastFilledIndex = code.lastIndexWhere((digit) => digit.isNotEmpty);
-      if (lastFilledIndex != -1) {
-        code[lastFilledIndex] = "";
+      for (int i = code.length - 1; i >= 0; i--) {
+        if (code[i].isNotEmpty) {
+          code[i] = "";
+          break;
+        }
       }
     });
   }
 
-  void _onSubmit() async {
-    final enteredCode = code.join();
-    if (appPassword.isEmpty) {
-      if (enteredCode.length < 4) {
-        _showSnackBar("Iltimos, kamida 4 ta raqam kiriting!");
-      } else {
-        await SharedPreferencesHelper().setString("app_password", enteredCode);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      }
-    } else {
-      if (enteredCode.length < 4) {
-        _showSnackBar("Iltimos, kamida 4 ta raqam kiriting!");
-      } else if (enteredCode == appPassword) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      } else {
-        _showSnackBar("Kod noto'g'ri kiritildi!");
-      }
-    }
-  }
-
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.red,
-        duration: const Duration(milliseconds: 600),
-        content: Text(message),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final phoneMasked = widget.phone.replaceRange(
+      2,
+      widget.phone.length - 1,
+      " *** ** *",
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primaryColor,
-      appBar:
-          appPassword.isNotEmpty
-              ? AppBar(
-                automaticallyImplyLeading: false,
-                iconTheme: const IconThemeData(color: Colors.white),
-                centerTitle: false,
-                backgroundColor: AppColors.primaryColor,
-              )
-              : CustomAppBar(),
+      appBar: CustomAppBar(route: ResetPasswordEmail()),
       body: SafeArea(
         child: Column(
           children: [
             Spacer(),
             Text(
-              appPassword.isEmpty
-                  ? "Iltimos ekran ilovasi uchun \n kod yarating"
-                  : "Kirish kodini kiriting",
+              "+998 ${phoneMasked} raqamiga \nyuborilgan kodni kiriting",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppColors.white2,
-                fontSize: 20.sp,
+                fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -112,6 +66,7 @@ class _SetPasswordState extends State<SetPassword> {
                   code.asMap().entries.map((entry) {
                     int index = entry.key;
                     String digit = entry.value;
+
                     return Container(
                       width: 40,
                       margin: EdgeInsets.symmetric(horizontal: 6),
@@ -129,19 +84,65 @@ class _SetPasswordState extends State<SetPassword> {
                     );
                   }).toList(),
             ),
+
             SizedBox(height: 60.h),
-            CustomButton(
-              onPressed: () => _onSubmit(),
-              title: "Tasdiqlash",
-              bacColor: AppColors.white1,
-              textColor: AppColors.primaryColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 24,
-              borderRadius: 30,
-              width: 0.7.sw,
-              height: 55.h,
+            BlocConsumer<VerifyOtpBloc, VerifyOtpState>(
+              listener: (context, state) {
+                if (state is VerifyOtpSuccess) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SetPassword()),
+                  );
+                } else if (state is VerifyOtpError) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(state.message)));
+                }
+              },
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<VerifyOtpBloc>(context).add(
+                      VerifyOtpCodeEvent(
+                        phone: "+998${widget.phone}",
+                        otpCode: code.join().toString(),
+                        otpType: widget.otpType,
+                      ),
+                    );
+                  },
+
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.white1,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.r),
+                    ),
+                    minimumSize: Size(0.7.sw, 55.h),
+                  ),
+                  child:
+                      state is VerifyOtpLoading
+                          ? SizedBox(
+                            height: 24.h,
+                            width: 24.h,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.white1,
+                              ),
+                              strokeWidth: 3,
+                            ),
+                          )
+                          : Text(
+                            "Tasdiqlash",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                );
+              },
             ),
             SizedBox(height: 20),
+
             _buildKeypad(),
             SizedBox(height: 40.h),
           ],

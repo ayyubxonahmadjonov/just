@@ -1,3 +1,6 @@
+import 'package:real_project/presentation/view_models/bloc/get_categories/get_categories_bloc.dart';
+import 'package:real_project/presentation/view_models/bloc/set_new_password/set_new_password_bloc.dart';
+
 import 'core/constants/app_imports.dart';
 
 class MyApp extends StatefulWidget {
@@ -33,6 +36,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => CreateIncomeBloc()),
         BlocProvider(create: (context) => GetExpenseBloc()),
         BlocProvider(create: (context) => CreateExpenseBloc()),
+        BlocProvider(create: (context) => VerifyOtpBloc()),
+        BlocProvider(create: (context) => SetNewPasswordBloc()),
+        BlocProvider(create: (context) => GetCategoriesBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

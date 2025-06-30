@@ -28,7 +28,7 @@ class GetProfileBloc extends Bloc<GetProfileEvent, GetProfileState> {
         emit(GetProfileSuccess(user: user));
       } else if (result.statusCode == 401) {
       } else {
-        emit(GetProfileError(error: result.result.toString()));
+        emit(GetProfileError(error: result.result["message"].toString()));
       }
     } catch (e) {
       emit(GetProfileError(error: e.toString()));

@@ -20,10 +20,11 @@ class CreateExpenseBloc extends Bloc<CreateExpenseEvent, CreateExpenseState> {
         event.date,
         event.category,
       );
+      print(result.result);
       if (result.isSuccess) {
         emit(CreateExpenseSuccess());
       } else {
-        emit(CreateExpenseError(message: result.result.toString()));
+        emit(CreateExpenseError(message: result.result["message"].toString()));
       }
     } catch (e) {}
   }

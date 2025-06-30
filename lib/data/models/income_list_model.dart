@@ -20,7 +20,7 @@ class IncomeModel {
   factory IncomeModel.fromJson(Map<String, dynamic> json) {
     return IncomeModel(
       id: json['id'],
-      userName: json['user_name'],
+      userName: json['user_name'] ?? "",
       category: json['category'],
       categoryName: json['category_name'],
       amount: json['amount'],

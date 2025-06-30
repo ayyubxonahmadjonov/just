@@ -14,15 +14,19 @@ class ComfirmSmscodeBloc
   ) async {
     emit(ConfirmSmsCodeLoadingState());
     try {
-      final result = await ApiService.confirmSmsCode(
-        event.email,
-        event.sms_code,
-        event.newPassword,
+      final result = await ApiService.confirmotpforResetPassword(
+        event.phone_number,
+        event.otp_code,
       );
-      if (result.statusCode == 200 || result.statusCode == 201) {
+
+      if (result.isSuccess) {
+        final String resetToken = result.result["reset_token"];
+        await SharedPreferencesHelper().setString("reset_token", resetToken);
         emit(ConfirmSmsCodeSuccesState());
-      } else if (result.statusCode == 400) {
-        emit(ConfirmSmsCodeErrorState(error: result.result.toString()));
+      } else {
+        emit(
+          ConfirmSmsCodeErrorState(error: result.result["message"].toString()),
+        );
       }
     } catch (e) {
       emit(ConfirmSmsCodeErrorState(error: "something went wrong $e"));

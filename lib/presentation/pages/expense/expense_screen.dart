@@ -35,7 +35,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           SizedBox(height: 60.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               BuildIconButton(
                 dialogWidth: maxWidth * 0.93,
@@ -60,18 +60,18 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 icon: "add_income.svg",
                 label: "Qo'shish",
               ),
-              BuildIconButton(
-                iconColor: AppColors.red,
+              // BuildIconButton(
+              //   iconColor: AppColors.red,
 
-                dialogWidth: maxWidth * 0.93,
-                dialogHeight: maxHeight * 0.5,
-                popColor: AppColors.white2,
-                color: AppColors.white2,
+              //   dialogWidth: maxWidth * 0.93,
+              //   dialogHeight: maxHeight * 0.5,
+              //   popColor: AppColors.white2,
+              //   color: AppColors.white2,
 
-                widget: ExpenseHistoryScreen(),
-                icon: "statistics.svg",
-                label: "Statistika",
-              ),
+              //   widget: ExpenseHistoryScreen(),
+              //   icon: "statistics.svg",
+              //   label: "Statistika",
+              // ),
             ],
           ),
         ],

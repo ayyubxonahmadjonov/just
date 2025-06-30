@@ -7,7 +7,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String? loginErrorMessage;
 
@@ -37,17 +37,23 @@ class _LoginPageState extends State<LoginPage> {
                 key: _formKey,
                 child: BlocConsumer<AuthLoginBloc, AuthLoginState>(
                   listener: (context, state) {
-                    if (state is AuthLoginError) {
+                    if (state is AuthLoginSucces) {
+                      loginErrorMessage = null;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => OtpPage(
+                                phone: phoneNumberController.text.trim(),
+                                otpType: "login",
+                              ),
+                        ),
+                      );
+                    } else if (state is AuthLoginError) {
                       setState(() {
                         loginErrorMessage = "Email yoki Parol noto'gri";
                       });
                       _formKey.currentState!.validate();
-                    } else if (state is AuthLoginSucces) {
-                      loginErrorMessage = null;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SetPassword()),
-                      );
                     }
                   },
                   builder: (context, state) {
@@ -55,21 +61,30 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(height: 40.h),
-                        CustomTextField(
-                          iconColor: AppColors.whiteGrey1,
-                          color: AppColors.whiteGrey2,
-                          textInputType: TextInputType.emailAddress,
-                          labelText: "Email pochtangiz",
-                          hintText: "Email pochtangiz",
-                          icon: Icons.email_outlined,
-                          controller: emailController,
+                        IntlPhoneField(
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            filled: true,
+
+                            fillColor: AppColors.whiteGrey2,
+                            labelText: 'Telefon raqamingiz',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                          ),
+                          initialCountryCode: 'UZ',
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Emailni kiriting";
-                            } else if (!value.contains("@")) {
-                              return "Email noto‘g‘ri formatda";
+                            if (value?.number.isEmpty ?? true) {
+                              return "Telefon raqamini kiriting";
+                            }
+                            if (value!.number.length <= 9) {
+                              return "Telefon raqamini 9 ta belgidan iborat bo'lishi shart";
                             }
                             return null;
+                          },
+                          onChanged: (phone) {
+                            phoneNumberController.text = phone.number;
                           },
                         ),
                         SizedBox(height: 18.h),
@@ -132,7 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                                         context,
                                       ).add(
                                         LoginEvent(
-                                          email: emailController.text.trim(),
+                                          phone_number:
+                                              "+998${phoneNumberController.text.trim()}",
                                           password:
                                               passwordController.text.trim(),
                                         ),

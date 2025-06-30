@@ -22,40 +22,77 @@ class ApiService {
   }
 
   //=====LOGIN=====
-  static Future<HttpResult> login(String email, String password) async {
-    var body = {"email": email, "password": password};
+  static Future<HttpResult> login(String phone_number, String password) async {
+    var body = {"phone_number": phone_number, "password": password};
 
-    return await _post("api/login/", body: body);
+    return await _post("api/api/login/", body: body);
   }
 
   static Future<HttpResult> registr(
     String name,
-    String email,
+    String phone_number,
     String password,
   ) async {
-    var body = {"full_name": name, "email": email, "password": password};
+    var body = {
+      "name": name,
+      "phone_number": phone_number,
+      "password": password,
+    };
 
-    return await _post("api/register/", body: body);
+    return await _post("api/api/register/", body: body);
   }
 
-  static Future<HttpResult> resetPasswordbyEmail(String email) async {
-    var body = {"email": email};
-
-    return await _post("api/forgot-password/send-code/", body: body);
-  }
-
-  static Future<HttpResult> confirmSmsCode(
-    String email,
-    String code,
-    String new_Password,
+  static Future<HttpResult> verify_otp(
+    String phone_number,
+    String otp_code,
+    String otp_type,
   ) async {
-    var body = {"email": email, "code": code, "new_password": new_Password};
+    var body = {
+      "phone_number": phone_number,
+      "otp_code": otp_code,
+      "otp_type": otp_type,
+    };
 
-    return await _post("api/forgot-password/reset/", body: body);
+    return await _post("api/api/verify-otp/", body: body);
+  }
+
+  static Future<HttpResult> resetPasswordbyPhoneNumber(
+    String phone_number,
+  ) async {
+    var body = {"phone_number": phone_number};
+
+    return await _post("api/api/password-reset/", body: body);
+  }
+
+  static Future<HttpResult> setNewPassword(
+    String reset_token,
+    String new_password,
+    String confirm_password,
+  ) async {
+    var body = {
+      "reset_token": reset_token,
+      "new_password": new_password,
+      "confirm_password": confirm_password,
+    };
+
+    return await _post("api/api/password-reset/set-password/", body: body);
+  }
+
+  static Future<HttpResult> confirmotpforResetPassword(
+    String phone_number,
+    String otp_code,
+  ) async {
+    var body = {"phone_number": phone_number, "otp_code": otp_code};
+
+    return await _post("api/api/password-reset-confirm/", body: body);
   }
 
   static Future<HttpResult> getProfile() async {
     return await _get("api/profile/");
+  }
+
+  static Future<HttpResult> getCategories() async {
+    return await _get("api/categories/");
   }
 
   static Future<HttpResult> createIncome(
@@ -197,7 +234,7 @@ class ApiService {
       } else {}
       return HttpResult(
         statusCode: response.statusCode,
-        // result: decoded['message'].toString(),
+
         result: decoded.toString(),
         path: path,
         method: 'GET',

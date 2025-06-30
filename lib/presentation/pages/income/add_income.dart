@@ -1,3 +1,7 @@
+import 'package:real_project/data/models/category_model.dart'
+    show CategoryModel;
+import 'package:real_project/presentation/view_models/bloc/get_categories/get_categories_bloc.dart';
+
 import '../../../core/constants/app_imports.dart';
 
 class AddIncomeScreen extends StatefulWidget {
@@ -14,6 +18,13 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
   String? selectedYear;
 
   TextEditingController amountController = TextEditingController();
+  List<CategoryModel> categories = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    BlocProvider.of<GetCategoriesBloc>(context).add(GetCategoriesListEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +46,46 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
               /// Kategoriya va summa
               Row(
                 children: [
-                  Flexible(
-                    flex: 7,
-                    child: AbsorbPointer(
-                      child: TextField(
-                        readOnly: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Kategoriyani tanlang',
-                          border: UnderlineInputBorder(),
-                        ),
-                      ),
-                    ),
+                  BlocConsumer<GetCategoriesBloc, GetCategoriesState>(
+                    listener: (context, state) {
+                      if (state is GetCategoriesSuccess) {
+                        categories = state.categories;
+                      }
+                    },
+                    builder: (context, state) {
+                      return Flexible(
+                        flex: 7,
+                        child:
+                            state is GetCategoriesSuccess
+                                ? DropdownButtonFormField<String>(
+                                  value: selectedCategory,
+
+                                  decoration: const InputDecoration(
+                                    hintText: 'Kategoriyani tanlang',
+                                    border: UnderlineInputBorder(),
+                                  ),
+                                  items:
+                                      [
+                                        state
+                                            .categories
+                                            .first
+                                            .categoryTypeDisplay
+                                            .toString(),
+                                      ].map((category) {
+                                        return DropdownMenuItem(
+                                          value: category,
+                                          child: Text(category),
+                                        );
+                                      }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedCategory = value;
+                                    });
+                                  },
+                                )
+                                : const SizedBox(),
+                      );
+                    },
                   ),
                   SizedBox(width: 30.w),
                   Flexible(
@@ -180,7 +220,7 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
                     CreateNewIncomeEvent(
                       amount: amountController.text,
                       date: formattedDate,
-                      category: 1,
+                      category: categories.first.id,
                     ),
                   );
 

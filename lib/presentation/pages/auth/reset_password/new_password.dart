@@ -1,3 +1,4 @@
+import 'package:real_project/presentation/view_models/bloc/set_new_password/set_new_password_bloc.dart';
 
 import '../../../../core/constants/app_imports.dart';
 
@@ -90,29 +91,61 @@ class _NewPasswordState extends State<NewPassword> {
                     SizedBox(height: 0.07.sh),
 
                     /// Tasdiqlash tugmasi
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
+                    BlocConsumer<SetNewPasswordBloc, SetNewPasswordState>(
+                      listener: (context, state) {
+                        if (state is SetNewPasswordSuccess) {
                           CustomAwesomeDialog.showPasswordResetSuccess(
                             context: context,
                           );
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                        ),
-                        minimumSize: Size(0.8.sw, 55.h),
-                      ),
-                      child: Text(
-                        "Parolni saqlash",
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white1,
-                        ),
-                      ),
+                      builder: (context, state) {
+                        return ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              final String? resetToken =
+                                  await SharedPreferencesHelper().getString(
+                                    "reset_token",
+                                  );
+                              BlocProvider.of<SetNewPasswordBloc>(context).add(
+                                SetNewPasswordWithTokenEvent(
+                                  reset_token: resetToken.toString(),
+                                  new_password: passwordController.text,
+                                  confirm_password:
+                                      confirmPasswordController.text,
+                                ),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.r),
+                            ),
+                            minimumSize: Size(0.8.sw, 55.h),
+                          ),
+                          child:
+                              state is SetNewPasswordLoading
+                                  ? SizedBox(
+                                    height: 24.h,
+                                    width: 24.h,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppColors.white1,
+                                      ),
+                                      strokeWidth: 3,
+                                    ),
+                                  )
+                                  : Text(
+                                    "Parolni saqlash",
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.white1,
+                                    ),
+                                  ),
+                        );
+                      },
                     ),
 
                     SizedBox(height: 20.h),

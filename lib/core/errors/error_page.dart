@@ -79,7 +79,11 @@ class ErrorInfo extends StatelessWidget {
               ).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            Text(description, textAlign: TextAlign.center),
+            Text(
+              description,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 16 * 2.5),
             button ??
                 ElevatedButton(

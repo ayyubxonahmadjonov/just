@@ -1,5 +1,6 @@
-
 import 'package:real_project/core/constants/app_imports.dart';
+import 'package:real_project/presentation/pages/auth/reset_password/verify_otp_resetpassword.dart';
+
 class ResetPasswordEmail extends StatefulWidget {
   const ResetPasswordEmail({super.key});
 
@@ -9,7 +10,7 @@ class ResetPasswordEmail extends StatefulWidget {
 
 class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController phoneController = TextEditingController();
+  String phone_number = "";
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +50,15 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                     ),
                     SizedBox(height: 40.h),
                     IntlPhoneField(
+                      validator: (value) {
+                        if (value?.number.isEmpty ?? false) {
+                          return "Telefon raqamini kiriting";
+                        }
+                        if (value!.number.length <= 9) {
+                          return "Telefon raqamini 9 ta belgidan iborat bo'lishi shart";
+                        }
+                        return null;
+                      },
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         filled: true,
@@ -62,38 +72,75 @@ class _ResetPasswordEmailState extends State<ResetPasswordEmail> {
                       ),
                       initialCountryCode: 'UZ',
                       onChanged: (phone) {
-                        phoneController.text = phone.completeNumber;
+                        phone_number = phone.number;
                       },
                     ),
 
                     SizedBox(height: 50.h),
 
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) =>
-                                    OtpPage(phone: phoneController.text),
+                    BlocConsumer<ResetPasswordBloc, ResetPasswordState>(
+                      listener: (context, state) {
+                        if (state is ResetPasswordSuccesState) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => VerifyOtpResetPasswordPage(
+                                    phone: phone_number,
+                                  ),
+                            ),
+                          );
+                        } else if (state is ResetPasswordErrorState) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) =>
+                                      NoconnectionScreen(error: state.error),
+                            ),
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              BlocProvider.of<ResetPasswordBloc>(context).add(
+                                ResetPasswordbyEmailEvent(
+                                  phone_number: "+998${phone_number}",
+                                ),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.r),
+                            ),
+                            minimumSize: Size(0.8.sw, 55.h),
                           ),
+                          child:
+                              state is ResetPasswordLoadingState
+                                  ? SizedBox(
+                                    height: 24.h,
+                                    width: 24.h,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        AppColors.white1,
+                                      ),
+                                      strokeWidth: 3,
+                                    ),
+                                  )
+                                  : Text(
+                                    "Kodni olish",
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.white1,
+                                    ),
+                                  ),
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.r),
-                        ),
-                        minimumSize: Size(0.8.sw, 55.h),
-                      ),
-                      child: Text(
-                        "Kodni olish",
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.white1,
-                        ),
-                      ),
                     ),
 
                     // BlocConsumer<ResetPasswordBloc, ResetPasswordState>(

@@ -15,18 +15,13 @@ class AuthRegistrBloc extends Bloc<AuthRegistrEvent, AuthRegistrState> {
     try {
       final result = await ApiService.registr(
         event.name,
-        event.email,
+        event.phone_number,
         event.password,
       );
-
       if (result.statusCode == 200 || result.statusCode == 201) {
-        final access = result.result["token"]["access"];
-        final refresh = result.result["token"]["refresh"];
-        await SharedPreferencesHelper().setString("access", access);
-        await SharedPreferencesHelper().setString("refresh", refresh);
         emit(AuthRegistrSucces());
       } else {
-        emit(AuthRegistrError(error: result.result.toString()));
+        emit(AuthRegistrError(error: result.result["message"].toString()));
       }
     } catch (e) {
       emit(AuthRegistrError(error: "something went wrong $e"));

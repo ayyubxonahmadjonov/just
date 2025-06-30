@@ -16,17 +16,21 @@ class GetIncomeListBloc extends Bloc<GetIncomeListEvent, GetIncomeListState> {
     try {
       emit(GetIncomeListLoading());
       final result = await ApiService.getIncomeList();
-
+      print(result.result);
       if (result.isSuccess) {
         final incomeList =
             (result.result as List)
                 .map((e) => IncomeModel.fromJson(e))
                 .toList();
+        print(incomeList.length);
+        print(incomeList);
 
         emit(GetIncomeListSuccess(incomeList: incomeList));
       } else {
-        emit(GetIncomeListError(message: result.result.toString()));
+        emit(GetIncomeListError(message: result.result["message"].toString()));
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 }

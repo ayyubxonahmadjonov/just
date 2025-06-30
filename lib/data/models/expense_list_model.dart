@@ -20,7 +20,7 @@ class ExpenseModel {
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
     return ExpenseModel(
       id: json['id'],
-      userName: json['user_name'],
+      userName: json['user_name'] ?? "",
       category: json['category'],
       categoryName: json['category_name'],
       amount: json['amount'],

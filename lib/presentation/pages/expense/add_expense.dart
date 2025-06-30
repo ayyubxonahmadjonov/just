@@ -1,6 +1,6 @@
 import 'package:real_project/core/constants/app_imports.dart';
-import 'package:real_project/presentation/view_models/bloc/create_income/create_income_bloc.dart';
-import 'package:real_project/presentation/view_models/bloc/expense/create_expense/create_expense_bloc.dart';
+import 'package:real_project/data/models/category_model.dart';
+import 'package:real_project/presentation/view_models/bloc/get_categories/get_categories_bloc.dart';
 
 class AddExpenseScreen extends StatefulWidget {
   const AddExpenseScreen({super.key});
@@ -21,6 +21,13 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   String year = "";
 
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<GetCategoriesBloc>(context).add(GetCategoriesListEvent());
+  }
+
+  List<CategoryModel> categories = [];
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white2,
@@ -40,28 +47,43 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               /// Kategoriya va summa
               Row(
                 children: [
-                  Flexible(
-                    flex: 7,
-                    child: DropdownButtonFormField<String>(
-                      value: selectedCategory,
+                  BlocConsumer<GetCategoriesBloc, GetCategoriesState>(
+                    listener: (context, state) {
+                      if (state is GetCategoriesSuccess) {
+                        categories = state.categories;
+                      }
+                    },
+                    builder: (context, state) {
+                      return Flexible(
+                        flex: 7,
+                        child:
+                            state is GetCategoriesSuccess
+                                ? DropdownButtonFormField<String>(
+                                  value: selectedCategory,
 
-                      decoration: const InputDecoration(
-                        hintText: 'Kategoriyani tanlang',
-                        border: UnderlineInputBorder(),
-                      ),
-                      items:
-                          ['Ovqat', 'Transport', 'O‘yin'].map((category) {
-                            return DropdownMenuItem(
-                              value: category,
-                              child: Text(category),
-                            );
-                          }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedCategory = value;
-                        });
-                      },
-                    ),
+                                  decoration: const InputDecoration(
+                                    hintText: 'Kategoriyani tanlang',
+                                    border: UnderlineInputBorder(),
+                                  ),
+                                  items:
+                                      [
+                                        state.categories[1].categoryTypeDisplay
+                                            .toString(),
+                                      ].map((category) {
+                                        return DropdownMenuItem(
+                                          value: category,
+                                          child: Text(category),
+                                        );
+                                      }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedCategory = value;
+                                    });
+                                  },
+                                )
+                                : const SizedBox(),
+                      );
+                    },
                   ),
                   const SizedBox(width: 10),
                   Flexible(
@@ -179,7 +201,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                     GenerateExpenseEvent(
                       amount: amountController.text,
                       date: formattedDate,
-                      category: 1,
+                      category: categories.last.id,
                     ),
                   );
 

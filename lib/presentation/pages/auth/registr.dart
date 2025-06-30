@@ -9,7 +9,7 @@ class RegistrationForm extends StatefulWidget {
 class _RegistrationFormState extends State<RegistrationForm> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-  final emailController = TextEditingController();
+  final phoneNumberController = TextEditingController();
   final passwordController = TextEditingController();
   final rePasswordController = TextEditingController();
   bool isOfferAccepted = false;
@@ -57,21 +57,21 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                     : null,
                       ),
                       SizedBox(height: 18.h),
-                      CustomTextField(
-                        iconColor: AppColors.whiteGrey1,
-                        color: AppColors.whiteGrey2,
-                        textInputType: TextInputType.emailAddress,
-                        labelText: "Email pochtangiz",
-                        hintText: "Email pochtangiz",
-                        icon: Icons.email_outlined,
-                        controller: emailController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Emailni kiriting";
-                          } else if (!value.contains("@")) {
-                            return "Email noto‘g‘ri formatda";
-                          }
-                          return null;
+                      IntlPhoneField(
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          filled: true,
+
+                          fillColor: AppColors.whiteGrey2,
+                          labelText: 'Telefon raqamingiz',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                        initialCountryCode: 'UZ',
+                        onChanged: (phone) {
+                          phoneNumberController.text = phone.number;
                         },
                       ),
                       SizedBox(height: 18.h),
@@ -156,7 +156,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           if (state is AuthRegistrSucces) {
                             Navigator.pushAndRemoveUntil(
                               context,
-                              MaterialPageRoute(builder: (_) => SetPassword()),
+                              MaterialPageRoute(
+                                builder:
+                                    (_) => OtpPage(
+                                      otpType: "register",
+                                      phone:
+                                          "${phoneNumberController.text.trim()}",
+                                    ),
+                              ),
                               (route) => false,
                             );
                           } else if (state is AuthRegistrError) {
@@ -200,9 +207,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                       ).add(
                                         RegistrEvent(
                                           name: nameController.text.trim(),
-                                          email: emailController.text.trim(),
-                                          password: passwordController.text,
-                                          rePassword: rePasswordController.text,
+                                          phone_number:
+                                              "+998${phoneNumberController.text.trim()}",
+                                          password:
+                                              passwordController.text.trim(),
                                         ),
                                       );
                                     },

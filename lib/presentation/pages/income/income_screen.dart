@@ -33,7 +33,7 @@ class _IncomeScreenState extends State<IncomeScreen> {
           SizedBox(height: 60.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
 
             children: [
               BuildIconButton(
@@ -60,18 +60,18 @@ class _IncomeScreenState extends State<IncomeScreen> {
                 icon: "add_income.svg",
                 label: "Qo'shish",
               ),
-              BuildIconButton(
-                iconColor: AppColors.primaryColor,
+              // BuildIconButton(
+              //   iconColor: AppColors.primaryColor,
 
-                dialogWidth: maxWidth * 0.93,
-                dialogHeight: maxHeight * 0.5,
-                popColor: AppColors.white2,
-                color: AppColors.white2,
+              //   dialogWidth: maxWidth * 0.93,
+              //   dialogHeight: maxHeight * 0.5,
+              //   popColor: AppColors.white2,
+              //   color: AppColors.white2,
 
-                widget: IncomeHistoryScreen(),
-                icon: "statistics.svg",
-                label: "Statistika",
-              ),
+              //   widget: IncomeHistoryScreen(),
+              //   icon: "statistics.svg",
+              //   label: "Statistika",
+              // ),
             ],
           ),
         ],
