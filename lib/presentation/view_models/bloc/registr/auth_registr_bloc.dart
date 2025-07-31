@@ -18,6 +18,7 @@ class AuthRegistrBloc extends Bloc<AuthRegistrEvent, AuthRegistrState> {
         event.phone_number,
         event.password,
       );
+
       if (result.statusCode == 200 || result.statusCode == 201) {
         emit(AuthRegistrSucces());
       } else {

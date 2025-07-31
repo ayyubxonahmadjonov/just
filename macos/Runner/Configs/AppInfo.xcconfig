@@ -8,7 +8,7 @@
 PRODUCT_NAME = real_project
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.realProject
+PRODUCT_BUNDLE_IDENTIFIER = com.prime_capital
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2025 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2025 com.prime_capital. All rights reserved.

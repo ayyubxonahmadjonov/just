@@ -4,7 +4,7 @@ import '../../../core/constants/app_imports.dart';
 
 class ApiService {
   ApiService._();
-  static const String _baseUrl = "http://185.42.14.208/";
+  static const String _baseUrl = "http://45.144.220.46/";
   static Map<String, String> _header() {
     final token = SharedPreferencesHelper().getString("access").toString();
     if (token.isEmpty || token == "null") {
